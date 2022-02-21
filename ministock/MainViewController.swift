@@ -77,21 +77,38 @@ class MainViewController: UIViewController {
     let scrollView = UIScrollView()
     let contentView = UIView()
     var currentIdx: Int = 0
-    let tableView = UITableView(frame: .zero, style: .plain)
+    let myFavoriteTableView = UITableView(frame: .zero, style: .plain)
+    
+
+    
+    private lazy var addFavoriteStock: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("관심 주식 담기 및 관리", for: .normal)
+        bt.setTitleColor(UIColor.black, for: .normal)
+        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        bt.backgroundColor = .white
+        bt.layer.cornerRadius = 5
+        bt.layer.borderColor = UIColor.black.cgColor
+        bt.layer.borderWidth = 1
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        return bt
+    }()
   
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.rowHeight = 50
-        tableView.separatorStyle = .none
+        myFavoriteTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
+        myFavoriteTableView.delegate = self
+        myFavoriteTableView.dataSource = self
+        myFavoriteTableView.translatesAutoresizingMaskIntoConstraints = false
+        myFavoriteTableView.rowHeight = 50
+        myFavoriteTableView.separatorStyle = .none
+        
         initLayout()
-        test()
-       startAutoScroll()
+        initCarouselView()
+        startAutoScroll()
         
     }
     //MARK: - Actions
@@ -117,9 +134,6 @@ class MainViewController: UIViewController {
         
         let stackView = UIStackView(arrangedSubviews: [slideShowView,myFavoriteView,stocksView,dividendStocksView,exchangeRateView])
         stackView.axis = .vertical
-        
-//        stackView.alignment = .fill
-        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(stackView)
@@ -140,21 +154,23 @@ class MainViewController: UIViewController {
         myFavoriteLabel.topAnchor.constraint(equalTo: myFavoriteBackView.topAnchor, constant: 15).isActive = true
         myFavoriteLabel.leadingAnchor.constraint(equalTo: myFavoriteBackView.leadingAnchor, constant: 15).isActive = true
         
-        myFavoriteBackView.addSubview(tableView)
-        tableView.topAnchor.constraint(equalTo: myFavoriteLabel.bottomAnchor,constant: 15).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: myFavoriteLabel.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: myFavoriteBackView.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: myFavoriteBackView.bottomAnchor).isActive = true
-        tableView.backgroundColor = .red
-      
+        myFavoriteBackView.addSubview(addFavoriteStock)
+        addFavoriteStock.leadingAnchor.constraint(equalTo: myFavoriteLabel.leadingAnchor, constant: 0).isActive = true
+        addFavoriteStock.bottomAnchor.constraint(equalTo: myFavoriteBackView.bottomAnchor, constant: -15).isActive = true
+        addFavoriteStock.trailingAnchor.constraint(equalTo: myFavoriteBackView.trailingAnchor, constant: -10).isActive = true
+        
+        myFavoriteBackView.addSubview(myFavoriteTableView)
+        myFavoriteTableView.topAnchor.constraint(equalTo: myFavoriteLabel.bottomAnchor,constant: 15).isActive = true
+        myFavoriteTableView.leadingAnchor.constraint(equalTo: myFavoriteLabel.leadingAnchor).isActive = true
+        myFavoriteTableView.trailingAnchor.constraint(equalTo: myFavoriteBackView.trailingAnchor).isActive = true
+        myFavoriteTableView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        myFavoriteTableView.backgroundColor = .red
+//
     }
-    func test(){
+    func initCarouselView(){
         carouselCollectionView.dataSource = self
         carouselCollectionView.delegate = self
         carouselCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        
-                
-        
         slideShowView.addSubview(carouselCollectionView)
         carouselCollectionView.isPagingEnabled = true
         NSLayoutConstraint.activate([
@@ -204,11 +220,9 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("->end ",indexPath.row,currentIdx)
 
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("->will ",indexPath.row,currentIdx)
         if indexPath.row == 0 {
             cell.backgroundColor = .red
         }
