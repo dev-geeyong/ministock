@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		469B01CF27C48F3400E41784 /* CategoryCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B01CE27C48F3400E41784 /* CategoryCollectionCell.swift */; };
 		6AAD302327C3198100228673 /* MainTapBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302227C3198100228673 /* MainTapBarController.swift */; };
 		6AAD302527C31ACA00228673 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302427C31ACA00228673 /* SearchViewController.swift */; };
 		6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302627C31B1700228673 /* ThemesViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		469B01CE27C48F3400E41784 /* CategoryCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionCell.swift; sourceTree = "<group>"; };
 		6AAD302227C3198100228673 /* MainTapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarController.swift; sourceTree = "<group>"; };
 		6AAD302427C31ACA00228673 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		6AAD302627C31B1700228673 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				6AAD302227C3198100228673 /* MainTapBarController.swift */,
 				6AAD302C27C3609C00228673 /* MyFavoriteTableViewCell.swift */,
 				6AAD302427C31ACA00228673 /* SearchViewController.swift */,
+				469B01CE27C48F3400E41784 /* CategoryCollectionCell.swift */,
 				6AAD302627C31B1700228673 /* ThemesViewController.swift */,
 				6AAD302827C31B3B00228673 /* AccountViewController.swift */,
 				6AAD302A27C31B5500228673 /* SettingViewController.swift */,
@@ -161,6 +164,7 @@
 				6AAD302927C31B3B00228673 /* AccountViewController.swift in Sources */,
 				6AAD302B27C31B5500228673 /* SettingViewController.swift in Sources */,
 				6ACD5F4327BB24E900D74C1F /* AppDelegate.swift in Sources */,
+				469B01CF27C48F3400E41784 /* CategoryCollectionCell.swift in Sources */,
 				6ACD5F4527BB24E900D74C1F /* SceneDelegate.swift in Sources */,
 				6AAD302D27C3609C00228673 /* MyFavoriteTableViewCell.swift in Sources */,
 				6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */,
