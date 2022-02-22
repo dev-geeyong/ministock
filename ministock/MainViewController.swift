@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
     
     let dividendStocksView: UIView = {
         let uv = UIView()
-        uv.backgroundColor = .green
+        uv.backgroundColor = .systemMint
         uv.heightAnchor.constraint(equalToConstant: 200).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
@@ -82,7 +82,7 @@ class MainViewController: UIViewController {
     
     let exchangeRateView: UIView = {
         let uv = UIView()
-        uv.backgroundColor = .systemBlue
+        uv.backgroundColor = .systemGray
         uv.heightAnchor.constraint(equalToConstant: 150).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
