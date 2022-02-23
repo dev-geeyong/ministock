@@ -37,6 +37,14 @@ class MyFavoriteTableViewCell: UITableViewCell{
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
+    
+    let underLineView: UIView = {
+        let uv = UIView()
+        uv.backgroundColor = .systemGray6
+        uv.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        uv.translatesAutoresizingMaskIntoConstraints = false
+        return uv
+    }()
     //MARK: - Lifecycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -54,6 +62,10 @@ class MyFavoriteTableViewCell: UITableViewCell{
         stockName.leadingAnchor.constraint(equalTo: stockImageView.trailingAnchor, constant: 10).isActive = true
         stockName.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
+        addSubview(underLineView)
+        underLineView.leadingAnchor.constraint(equalTo: stockImageView.leadingAnchor).isActive = true
+        underLineView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        underLineView.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15).isActive = true
 //        addSubview(leftView)
 ////        addSubview(rightView)
 ////

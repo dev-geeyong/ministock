@@ -32,9 +32,11 @@ class CategoryCollectionCell: UICollectionViewCell{
             if isSelected{
                 testLabel.textColor = .systemMint
                 underLineView.isHidden = false
+
                 
-                
-            }else{
+            }
+            else{
+
                 testLabel.textColor = .black
                 underLineView.isHidden = true
                 

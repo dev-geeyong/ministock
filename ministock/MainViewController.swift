@@ -11,7 +11,16 @@ class MainViewController: UIViewController {
     //MARK: - Propertie
     
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
-    var images = ["apple","meta","kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726","samsung","paypal"]
+    var images = ["apple","meta","kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726","samsung","paypal"] {
+        didSet{
+            stocksTableView.reloadData()
+        }
+    }
+    var stocks = ["애플","메타","테슬라","삼성","페이스북","페이팔","소니","고구마","루시드","QQQ"] {
+        didSet{
+            
+        }
+    }
     private let slideShowView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .red
@@ -65,12 +74,55 @@ class MainViewController: UIViewController {
     }()
     let stocksCategoryFilterView: UIView = {
         let uv = UIView()
-        uv.backgroundColor = .systemCyan
+        uv.backgroundColor = .white
         uv.heightAnchor.constraint(equalToConstant: 50).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
-    
+    lazy var stocksCategoryFilterBtn: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("전일 기준 ", for: .normal)
+        let config = UIImage.SymbolConfiguration(
+            pointSize: 11, weight: .regular, scale: .default)
+        let image = UIImage(systemName: "chevron.down", withConfiguration: config)
+        bt.setImage(image, for: .normal)
+        bt.tintColor = .systemGray
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.semanticContentAttribute = .forceRightToLeft
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        bt.addTarget(self, action: #selector(btnActions), for: .touchUpInside)
+        bt.contentHorizontalAlignment = .left;
+        return bt
+    }()
+    lazy var stocksQuestionBtn: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("8시 기준 조회증가순 ", for: .normal)
+        let config = UIImage.SymbolConfiguration(
+            pointSize: 13, weight: .regular, scale: .default)
+        let image = UIImage(systemName: "questionmark.circle", withConfiguration: config)
+        bt.setImage(image, for: .normal)
+        bt.tintColor = .systemGray
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.semanticContentAttribute = .forceRightToLeft
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        bt.addTarget(self, action: #selector(btnActions), for: .touchUpInside)
+        bt.contentHorizontalAlignment = .left;
+        bt.isHidden = true
+        return bt
+    }()
+    lazy var stocksEtfBtn: UIButton = {
+        let bt = UIButton(type: .system)
+        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular, scale: .default)
+        let image = UIImage(systemName: "circle", withConfiguration: config)
+        bt.setImage(image, for: .normal)
+        bt.setTitle(" ETF만 보기", for: .normal)
+        bt.tintColor = .systemGray
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        bt.addTarget(self, action: #selector(btnActions), for: .touchUpInside)
+        bt.contentHorizontalAlignment = .right
+        return bt
+    }()
     
     let dividendStocksView: UIView = {
         let uv = UIView()
@@ -157,6 +209,12 @@ class MainViewController: UIViewController {
         
     }
     //MARK: - Actions
+    @objc func btnActions(sender: UIButton){
+        print("->acc",sender)
+        let popUpViewController = PopUpViewController()
+        popUpViewController.modalPresentationStyle = .overFullScreen
+        present(popUpViewController, animated: true, completion: nil)
+    }
     //MARK: - Helpers
     
     func initLayout(){
@@ -226,6 +284,25 @@ class MainViewController: UIViewController {
         stocksCategoryFilterView.topAnchor.constraint(equalTo: stocksCategoryUnderLineView.bottomAnchor).isActive = true
         stocksCategoryFilterView.leadingAnchor.constraint(equalTo: stocksCategoryUnderLineView.leadingAnchor).isActive = true
         stocksCategoryFilterView.trailingAnchor.constraint(equalTo: stocksCategoryUnderLineView.trailingAnchor).isActive = true
+        
+        
+        stocksCategoryFilterView.addSubview(stocksQuestionBtn)
+        stocksQuestionBtn.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
+        stocksQuestionBtn.centerYAnchor.constraint(equalTo: stocksCategoryFilterView.centerYAnchor).isActive = true
+        stocksQuestionBtn.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        stocksQuestionBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
+        
+        stocksCategoryFilterView.addSubview(stocksCategoryFilterBtn)
+        stocksCategoryFilterBtn.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
+        stocksCategoryFilterBtn.centerYAnchor.constraint(equalTo: stocksCategoryFilterView.centerYAnchor).isActive = true
+        stocksCategoryFilterBtn.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        stocksCategoryFilterBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
+        
+        stocksCategoryFilterView.addSubview(stocksEtfBtn)
+        stocksEtfBtn.trailingAnchor.constraint(equalTo: stocksCategoryFilterView.trailingAnchor,constant: -15).isActive = true
+        stocksEtfBtn.centerYAnchor.constraint(equalTo: stocksCategoryFilterView.centerYAnchor).isActive = true
+        stocksEtfBtn.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        stocksEtfBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
         
         stocksView.addSubview(stocksTableView)
         stocksTableView.topAnchor.constraint(equalTo: stocksCategoryFilterView.bottomAnchor).isActive = true
@@ -330,7 +407,40 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
         if let cell = collectionView.cellForItem(at: indexPath){
             //            cell.isSelected = true
         }
+        
+        
         DispatchQueue.main.async {
+            switch indexPath.row{
+            case 0, 1:
+                self.stocksCategoryFilterBtn.isHidden = false
+                self.stocksQuestionBtn.isHidden = true
+                self.stocksEtfBtn.isHidden = false
+                
+            case 2:
+                self.stocksCategoryFilterBtn.isHidden = true
+                self.stocksQuestionBtn.isHidden = false
+                self.stocksQuestionBtn.setTitle("8시 기준 조회증가순 ", for: .normal)
+                self.stocksEtfBtn.isHidden = true
+                
+            case 3:
+                self.stocksCategoryFilterBtn.isHidden = true
+                self.stocksQuestionBtn.isHidden = false
+                self.stocksQuestionBtn.setTitle("8시 기준 검색증가순 ", for: .normal)
+                self.stocksEtfBtn.isHidden = true
+                self.images =  self.images.shuffled()
+                
+                
+            case 4:
+                self.stocksCategoryFilterBtn.isHidden = false
+                self.stocksQuestionBtn.isHidden = true
+                self.stocksCategoryFilterBtn.setTitle("배당수익률순 ", for: .normal)
+                self.stocksEtfBtn.isHidden = true
+            case 5:
+                self.stocksCategoryFilterBtn.isHidden = false
+                self.stocksEtfBtn.isHidden = true
+            default:
+                print("")
+            }
             
             if indexPath.row == 5 {
                 let rect = self.categoryCollectionView.layoutAttributesForItem(at: IndexPath(row: 5, section: 0))?.frame
@@ -338,6 +448,8 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
             }else{
                 self.categoryCollectionView.selectItem(at: IndexPath(item: indexPath.item, section: 0), animated: true, scrollPosition: .right)
             }
+            self.images =  self.images.shuffled()
+            self.stocks = self.stocks.shuffled()
         }
         print("->indexPath.item",indexPath.item)
     }
@@ -363,24 +475,24 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
             }
         }else{
             //
-//            if indexPath.row == 0 {
-//                cell.backgroundColor = .red
-//            }
-//            else if indexPath.row == 1 {
-//                cell.backgroundColor = .blue
-//            }
-//            else if indexPath.row == 2 {
-//                cell.backgroundColor = .systemGreen
-//            }
-//            else if indexPath.row == 3 {
-//                cell.backgroundColor = .systemMint
-//            }
-//            else if indexPath.row == 4 {
-//                cell.backgroundColor = .green
-//            }
-//            else{
-//                cell.backgroundColor = .purple
-//            }
+            //            if indexPath.row == 0 {
+            //                cell.backgroundColor = .red
+            //            }
+            //            else if indexPath.row == 1 {
+            //                cell.backgroundColor = .blue
+            //            }
+            //            else if indexPath.row == 2 {
+            //                cell.backgroundColor = .systemGreen
+            //            }
+            //            else if indexPath.row == 3 {
+            //                cell.backgroundColor = .systemMint
+            //            }
+            //            else if indexPath.row == 4 {
+            //                cell.backgroundColor = .green
+            //            }
+            //            else{
+            //                cell.backgroundColor = .purple
+            //            }
         }
         
         
@@ -447,6 +559,7 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == myFavoriteTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyFavoriteTableViewCell", for: indexPath) as! MyFavoriteTableViewCell?
+            cell?.underLineView.isHidden = true
             return cell!
         }
         else{
@@ -455,13 +568,11 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
                 cell?.stockImageView.image = UIImage(named: self.images[indexPath.row])
                 cell?.stockImageView.backgroundColor = .systemBlue
             }
+            if self.stocks.count > indexPath.row{
+                cell?.stockName.text = self.stocks[indexPath.row]
+            }
             return cell!
         }
         
-        
-        
-        
     }
-    
-    
 }
