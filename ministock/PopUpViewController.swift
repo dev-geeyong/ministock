@@ -1,21 +1,33 @@
 import UIKit
 
-final class PopUpViewController: UIViewController {
+final class PopUpViewController: UIViewController{
     
-    private let popUpView = UIView()
-    private let dismissButton = UIButton()
-    private let popUpBtnView: UIView = {
-       let uv = UIView()
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    lazy var dimmedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.6
+        return view
+    }()
+    private let titleLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "최근 기간별"
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    private let collectionBackView: UIView = {
+        let uv = UIView()
         uv.layer.cornerRadius = 5
         uv.layer.borderColor = UIColor.systemGray4.cgColor
         uv.layer.borderWidth = 1
         return uv
-    }()
-    private let label: UILabel = {
-       let lb = UILabel()
-        lb.text = "최근 기간별"
-        lb.translatesAutoresizingMaskIntoConstraints = false
-        return lb
     }()
     let collectionView: UICollectionView = {
         
@@ -29,62 +41,88 @@ final class PopUpViewController: UIViewController {
         
         return collectionView
     }()
+    var containerViewHeightConstraint: NSLayoutConstraint?
+    var containerViewBottomConstraint: NSLayoutConstraint?
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.3) {
+            self.containerViewBottomConstraint?.constant = 0 //화면 아래 300만큼 내려가있던게.. 0올라오면서..
+            self.view.layoutIfNeeded()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.systemGray.withAlphaComponent(0.6)
-        
+        view.backgroundColor = .clear
+        let tap = UITapGestureRecognizer(target: self, action: #selector(animateDismissView))
+        dimmedView.addGestureRecognizer(tap)
+        dimmedView.isUserInteractionEnabled = true
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        popUpView.backgroundColor = UIColor.white
-
-
-        dismissButton.addTarget(self, action: #selector(didTapDismissButton(_:)), for: .touchUpInside)
-        dismissButton.backgroundColor = .clear
-        view.addSubview(dismissButton)
-        
-
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        dismissButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        dismissButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
-        
-        dismissButton.addSubview(popUpView)
-        popUpView.layer.cornerRadius = 10
-        popUpView.translatesAutoresizingMaskIntoConstraints = false
-        popUpView.bottomAnchor.constraint(equalTo: dismissButton.bottomAnchor).isActive = true
-        popUpView.leadingAnchor.constraint(equalTo: dismissButton.leadingAnchor).isActive = true
-        popUpView.trailingAnchor.constraint(equalTo: dismissButton.trailingAnchor).isActive = true
-        popUpView.heightAnchor.constraint(equalToConstant: 250).isActive = true
-        
-        popUpView.addSubview(popUpBtnView)
-        popUpBtnView.translatesAutoresizingMaskIntoConstraints = false
-        popUpBtnView.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
-        popUpBtnView.centerYAnchor.constraint(equalTo: popUpView.centerYAnchor).isActive = true
-        popUpBtnView.widthAnchor.constraint(equalTo: popUpView.widthAnchor, multiplier: 3/4).isActive = true
-        popUpBtnView.heightAnchor.constraint(equalTo: popUpView.heightAnchor, multiplier: 1/2).isActive = true
-        
-        popUpView.addSubview(label)
-        label.leadingAnchor.constraint(equalTo: popUpBtnView.leadingAnchor).isActive = true
-        label.bottomAnchor.constraint(equalTo: popUpBtnView.topAnchor,constant: -10).isActive = true
-        
-        popUpBtnView.addSubview(collectionView)
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemGray4
-        collectionView.topAnchor.constraint(equalTo: popUpBtnView.topAnchor,constant: 0).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: popUpBtnView.leadingAnchor,constant: 0).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: popUpBtnView.trailingAnchor,constant: 0).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: popUpBtnView.bottomAnchor, constant: 0).isActive = true
+        setupConstraints()
         
     }
     
-    @objc func didTapDismissButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+    @objc func animateDismissView() {
+        UIView.animate(withDuration: 0.3) {
+            self.containerViewBottomConstraint?.constant = 300 // 다시 화면아래 300
+            self.view.layoutIfNeeded()
+        }
+        dimmedView.alpha = 0.6
+        UIView.animate(withDuration: 0.4) {
+            self.dimmedView.alpha = 0
+        } completion: { _ in
+            self.dismiss(animated: false)
+        }
     }
+    
+    func setupConstraints() {
+        
+        view.addSubview(dimmedView)
+        view.addSubview(containerView)
+        dimmedView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            dimmedView.topAnchor.constraint(equalTo: view.topAnchor),
+            dimmedView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            dimmedView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+        
+        
+        containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: 300)
+        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 300)
+        
+        containerViewHeightConstraint?.isActive = true
+        containerViewBottomConstraint?.isActive = true
+        
+        containerView.addSubview(collectionBackView)
+        collectionBackView.translatesAutoresizingMaskIntoConstraints = false
+        collectionBackView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        collectionBackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        collectionBackView.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 3/4).isActive = true
+        collectionBackView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: 0.4).isActive = true
+        
+        collectionBackView.addSubview(collectionView)
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .systemGray4
+        collectionView.topAnchor.constraint(equalTo: collectionBackView.topAnchor,constant: 0).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: collectionBackView.leadingAnchor,constant: 0).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: collectionBackView.trailingAnchor,constant: 0).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: collectionBackView.bottomAnchor, constant: 0).isActive = true
+        
+        
+        containerView.addSubview(titleLabel)
+        titleLabel.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor,constant: -15).isActive = true
+    }
+    
 }
 extension PopUpViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -101,19 +139,19 @@ extension PopUpViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       
-        return CGSize.init(width: popUpBtnView.bounds.width/3.0, height: popUpBtnView.frame.height/2.0 - 0.5)
+        
+        return CGSize.init(width: collectionBackView.bounds.width/3.0, height: collectionBackView.frame.height/2.0 - 0.5)
         
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-           return 1.0
-       }
-       
-       // CollectionView Cell의 옆 간격
-       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-           return 1.0
-       }
+        return 1.0
+    }
+    
+    // CollectionView Cell의 옆 간격
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

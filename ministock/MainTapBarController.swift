@@ -26,7 +26,7 @@ class MainTapBarController: UITabBarController {
         
         
         viewControllers = [main,search,themes,account,setting]
-        tabBar.tintColor = .black
+        tabBar.tintColor = .systemMint
         tabBar.backgroundColor = .white
         tabBar.barTintColor = .white
     }

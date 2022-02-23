@@ -13,7 +13,10 @@ class MainViewController: UIViewController {
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
     var images = ["apple","meta","kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726","samsung","paypal"] {
         didSet{
-            stocksTableView.reloadData()
+//            stocksTableView.reloadData()
+            let range = NSMakeRange(0, self.stocksTableView.numberOfSections)
+            let sections = NSIndexSet(indexesIn: range)
+            self.stocksTableView.reloadSections(sections as IndexSet, with: .automatic)
         }
     }
     var stocks = ["애플","메타","테슬라","삼성","페이스북","페이팔","소니","고구마","루시드","QQQ"] {
@@ -54,7 +57,7 @@ class MainViewController: UIViewController {
     let stocksView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .white
-        uv.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        uv.heightAnchor.constraint(equalToConstant: 770).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
@@ -62,6 +65,13 @@ class MainViewController: UIViewController {
         let uv = UIView()
         uv.backgroundColor = .white
         uv.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        uv.translatesAutoresizingMaskIntoConstraints = false
+        return uv
+    }()
+    let moreStockView: UIView = {
+        let uv = UIView()
+        uv.backgroundColor = .white
+        uv.heightAnchor.constraint(equalToConstant: 70).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
@@ -182,6 +192,19 @@ class MainViewController: UIViewController {
         bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
     }()
+    private lazy var moreStocksBtn: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("더보기", for: .normal)
+        bt.setTitleColor(UIColor.black, for: .normal)
+        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        bt.backgroundColor = .white
+        bt.layer.cornerRadius = 5
+        bt.layer.borderColor = UIColor.black.cgColor
+        bt.layer.borderWidth = 1
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        return bt
+    }()
     
     //MARK: - Lifecycle
     
@@ -213,7 +236,7 @@ class MainViewController: UIViewController {
         print("->acc",sender)
         let popUpViewController = PopUpViewController()
         popUpViewController.modalPresentationStyle = .overFullScreen
-        present(popUpViewController, animated: true, completion: nil)
+        present(popUpViewController, animated: false, completion: nil)
     }
     //MARK: - Helpers
     
@@ -304,11 +327,23 @@ class MainViewController: UIViewController {
         stocksEtfBtn.widthAnchor.constraint(equalToConstant: 100).isActive = true
         stocksEtfBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
         
+        stocksView.addSubview(moreStockView)
+        moreStockView.bottomAnchor.constraint(equalTo: stocksView.bottomAnchor).isActive = true
+        moreStockView.leadingAnchor.constraint(equalTo: stocksView.leadingAnchor).isActive = true
+        moreStockView.trailingAnchor.constraint(equalTo: stocksView.trailingAnchor).isActive = true
+        
+        moreStockView.addSubview(moreStocksBtn)
+        moreStocksBtn.topAnchor.constraint(equalTo: moreStockView.topAnchor, constant: 10).isActive = true
+        moreStocksBtn.leadingAnchor.constraint(equalTo: moreStockView.leadingAnchor, constant: 15).isActive = true
+        moreStocksBtn.trailingAnchor.constraint(equalTo: moreStockView.trailingAnchor,constant: -15).isActive = true
+        moreStocksBtn.bottomAnchor.constraint(equalTo: moreStockView.bottomAnchor, constant: -10).isActive = true
+        
         stocksView.addSubview(stocksTableView)
         stocksTableView.topAnchor.constraint(equalTo: stocksCategoryFilterView.bottomAnchor).isActive = true
         stocksTableView.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
         stocksTableView.trailingAnchor.constraint(equalTo: stocksCategoryFilterView.trailingAnchor).isActive = true
-        stocksTableView.bottomAnchor.constraint(equalTo: stocksView.bottomAnchor).isActive = true
+        stocksTableView.bottomAnchor.constraint(equalTo: moreStockView.topAnchor).isActive = true
+       
         
         //
     }
