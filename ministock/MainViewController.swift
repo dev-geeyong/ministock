@@ -13,7 +13,6 @@ class MainViewController: UIViewController {
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
     var images = ["apple","meta","kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726","samsung","paypal"] {
         didSet{
-//            stocksTableView.reloadData()
             let range = NSMakeRange(0, self.stocksTableView.numberOfSections)
             let sections = NSIndexSet(indexesIn: range)
             self.stocksTableView.reloadSections(sections as IndexSet, with: .automatic)
@@ -187,7 +186,7 @@ class MainViewController: UIViewController {
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         bt.backgroundColor = .white
         bt.layer.cornerRadius = 5
-        bt.layer.borderColor = UIColor.black.cgColor
+        bt.layer.borderColor = UIColor.systemGray4.cgColor
         bt.layer.borderWidth = 1
         bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
@@ -200,7 +199,7 @@ class MainViewController: UIViewController {
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         bt.backgroundColor = .white
         bt.layer.cornerRadius = 5
-        bt.layer.borderColor = UIColor.black.cgColor
+        bt.layer.borderColor = UIColor.systemGray4.cgColor
         bt.layer.borderWidth = 1
         bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
