@@ -21,23 +21,31 @@ class MyFavoriteTableViewCell: UITableViewCell{
     private let leftView: UIView = {
        let uv = UIView()
         uv.translatesAutoresizingMaskIntoConstraints = false
-        uv.backgroundColor = .red
+        uv.backgroundColor = .systemYellow
         return uv
     }()
     
     private let rightView: UIView = {
        let uv = UIView()
         uv.translatesAutoresizingMaskIntoConstraints = false
-        uv.backgroundColor = .blue
+        uv.backgroundColor = .systemBlue
         return uv
     }()
-    let stockName: UILabel = {
+    let companyNameLabel: UILabel = {
         let lb = UILabel()
         lb.text = "테슬라"
+        lb.font = UIFont.systemFont(ofSize: 18)
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    
+    let stockNameLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "TSLA"
+        lb.font = UIFont.systemFont(ofSize: 12)
+        lb.textColor = .systemGray
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
     let underLineView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .systemGray6
@@ -54,18 +62,37 @@ class MyFavoriteTableViewCell: UITableViewCell{
         stockImageView.backgroundColor = .blue
         stockImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         stockImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        stockImageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
-        stockImageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        stockImageView.layer.cornerRadius = 48 / 2
+        stockImageView.widthAnchor.constraint(equalToConstant: 42).isActive = true
+        stockImageView.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        stockImageView.layer.cornerRadius = 42 / 2
         
-        addSubview(stockName)
-        stockName.leadingAnchor.constraint(equalTo: stockImageView.trailingAnchor, constant: 10).isActive = true
-        stockName.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
         addSubview(underLineView)
         underLineView.leadingAnchor.constraint(equalTo: stockImageView.leadingAnchor).isActive = true
         underLineView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         underLineView.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15).isActive = true
+        
+        addSubview(leftView)
+        leftView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
+        leftView.heightAnchor.constraint(equalTo: stockImageView.heightAnchor).isActive = true
+        leftView.leadingAnchor.constraint(equalTo: stockImageView.trailingAnchor, constant: 10).isActive = true
+        
+        leftView.addSubview(companyNameLabel)
+        companyNameLabel.centerYAnchor.constraint(equalTo: leftView.centerYAnchor).isActive = true
+//        companyNameLabel.topAnchor.constraint(equalTo: leftView.topAnchor).isActive = true
+        companyNameLabel.leadingAnchor.constraint(equalTo: leftView.leadingAnchor, constant: 0).isActive = true
+        companyNameLabel.widthAnchor.constraint(equalTo: leftView.widthAnchor).isActive = true
+        
+        leftView.addSubview(stockNameLabel)
+        stockNameLabel.topAnchor.constraint(equalTo: companyNameLabel.bottomAnchor).isActive = true
+        stockNameLabel.leadingAnchor.constraint(equalTo: companyNameLabel.leadingAnchor).isActive = true
+        
+        addSubview(rightView)
+        rightView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
+        rightView.heightAnchor.constraint(equalTo: stockImageView.heightAnchor).isActive = true
+        rightView.leadingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: 0).isActive = true
+        
+        
 //        addSubview(leftView)
 ////        addSubview(rightView)
 ////

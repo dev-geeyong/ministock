@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
@@ -189,6 +190,7 @@ class MainViewController: UIViewController {
         bt.layer.borderColor = UIColor.systemGray4.cgColor
         bt.layer.borderWidth = 1
         bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.addTarget(self, action: #selector(pushView), for: .touchUpInside)
         return bt
     }()
     private lazy var moreStocksBtn: UIButton = {
@@ -202,6 +204,7 @@ class MainViewController: UIViewController {
         bt.layer.borderColor = UIColor.systemGray4.cgColor
         bt.layer.borderWidth = 1
         bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.addTarget(self, action: #selector(pushView), for: .touchUpInside)
         return bt
     }()
     
@@ -209,11 +212,17 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AlamofireManager.shared.getTest(completion: {
+            [weak self] result in
+            guard let self = self else {return}
+            print("->result",result)
+         })
+        
         myFavoriteTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
         myFavoriteTableView.delegate = self
         myFavoriteTableView.dataSource = self
         myFavoriteTableView.translatesAutoresizingMaskIntoConstraints = false
-        myFavoriteTableView.rowHeight = 50
+        myFavoriteTableView.rowHeight = 60
         myFavoriteTableView.separatorStyle = .none
         
         stocksTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "stocksTableView")
@@ -236,6 +245,10 @@ class MainViewController: UIViewController {
         let popUpViewController = PopUpViewController()
         popUpViewController.modalPresentationStyle = .overFullScreen
         present(popUpViewController, animated: false, completion: nil)
+    }
+    @objc func pushView(){
+        let nv = AccountViewController()
+        self.navigationController?.pushViewController(nv, animated: true)
     }
     //MARK: - Helpers
     
@@ -543,9 +556,6 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
                 return .zero
             }
             
-            
-            print("->cell.testLabel.frame.width ",cell.testLabel.frame.width )
-            
             let cellWidth = cell.testLabel.frame.width + 15
             
             
@@ -603,10 +613,11 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
                 cell?.stockImageView.backgroundColor = .systemBlue
             }
             if self.stocks.count > indexPath.row{
-                cell?.stockName.text = self.stocks[indexPath.row]
+                cell?.companyNameLabel.text = self.stocks[indexPath.row]
             }
             return cell!
         }
         
     }
 }
+
