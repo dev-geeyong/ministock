@@ -213,6 +213,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        AlamofireManager.shared.getTest()
+        
         myFavoriteTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
         myFavoriteTableView.delegate = self
         myFavoriteTableView.dataSource = self
