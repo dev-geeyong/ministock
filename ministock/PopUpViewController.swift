@@ -95,10 +95,10 @@ final class PopUpViewController: UIViewController{
         ])
         
         
-        containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: 300)
+        containerView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 300)
         
-        containerViewHeightConstraint?.isActive = true
+        
         containerViewBottomConstraint?.isActive = true
         
         containerView.addSubview(collectionBackView)

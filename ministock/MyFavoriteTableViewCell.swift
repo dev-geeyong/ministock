@@ -21,14 +21,14 @@ class MyFavoriteTableViewCell: UITableViewCell{
     private let leftView: UIView = {
        let uv = UIView()
         uv.translatesAutoresizingMaskIntoConstraints = false
-        uv.backgroundColor = .systemYellow
+        uv.backgroundColor = .white
         return uv
     }()
     
     private let rightView: UIView = {
        let uv = UIView()
         uv.translatesAutoresizingMaskIntoConstraints = false
-        uv.backgroundColor = .systemBlue
+        uv.backgroundColor = .white
         return uv
     }()
     let companyNameLabel: UILabel = {
