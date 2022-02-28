@@ -13,44 +13,94 @@ class MainViewController: UIViewController {
     //MARK: - Propertie
     var apiData = [DividendElement](){
         didSet{
-            self.myFavoriteTableView.reloadData()
+//            self.favoriteStockTableView.reloadData()
             self.stocksTableView.reloadData()
             self.dividendCollectionView.reloadData()
         }
     }
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
     
-    private let slideShowView: UIView = {
+    private let scrollView: UIScrollView = {
+       let sv = UIScrollView()
+        sv.backgroundColor = .systemGray6
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
+    private let contentView: UIView = {
+       let uv = UIView()
+        uv.translatesAutoresizingMaskIntoConstraints = false
+        uv.backgroundColor = .systemGray6
+        return uv
+    }()
+    
+    private lazy var stackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [carouselBackView,
+                                                favoriteStockBackView,
+                                                stocksBackView,
+                                                dividendStocksBackView,
+                                                exchangeRateBackView])
+        sv.axis = .vertical
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
+    //MARK: - carouselBackView
+    private let carouselBackView: UIView = {
         let uv = UIView()
-        uv.backgroundColor = .red
         uv.translatesAutoresizingMaskIntoConstraints = false
         uv.heightAnchor.constraint(equalToConstant: 200).isActive = true
         return uv
     }()
-    
-    private let myFavoriteView: UIView = {
+    private let carouselCollectionView: UICollectionView = {
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: flowLayout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = UIColor.white
+        
+        return collectionView
+    }()
+    //MARK: - favoriteStockBackView
+    private let favoriteStockBackView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .systemGray6
         uv.heightAnchor.constraint(equalToConstant: 220).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
-    private let myFavoriteBackView: UIView = {
+    private let favoriteInView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .white
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
-    
-    private let myFavoriteLabel: UILabel = {
+    private let favoriteTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "관심 주식"
         lb.font = UIFont.boldSystemFont(ofSize: 18)
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    
-    private let stocksView: UIView = {
+    private let favoriteStockTableView = UITableView(frame: .zero, style: .plain)
+    private lazy var addFavoriteStock: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("관심 주식 담기 및 관리", for: .normal)
+        bt.setTitleColor(UIColor.black, for: .normal)
+        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        bt.backgroundColor = .white
+        bt.layer.cornerRadius = 5
+        bt.layer.borderColor = UIColor.systemGray4.cgColor
+        bt.layer.borderWidth = 1
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.addTarget(self, action: #selector(pushView), for: .touchUpInside)
+        return bt
+    }()
+    //MARK: - stocksBackView
+    private let stocksBackView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .white
         uv.heightAnchor.constraint(equalToConstant: 770).isActive = true
@@ -61,13 +111,6 @@ class MainViewController: UIViewController {
         let uv = UIView()
         uv.backgroundColor = .white
         uv.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        uv.translatesAutoresizingMaskIntoConstraints = false
-        return uv
-    }()
-    private let moreStockView: UIView = {
-        let uv = UIView()
-        uv.backgroundColor = .white
-        uv.heightAnchor.constraint(equalToConstant: 70).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
@@ -85,6 +128,14 @@ class MainViewController: UIViewController {
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
+    private let moreStockView: UIView = {
+        let uv = UIView()
+        uv.backgroundColor = .white
+        uv.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        uv.translatesAutoresizingMaskIntoConstraints = false
+        return uv
+    }()
+
     private lazy var stocksCategoryFilterBtn: UIButton = {
         let bt = UIButton(type: .system)
         bt.setTitle("전일 기준 ", for: .normal)
@@ -129,15 +180,15 @@ class MainViewController: UIViewController {
         bt.contentHorizontalAlignment = .right
         return bt
     }()
-    //dividend
-    private let dividendStocksView: UIView = {
+    //MARK: - dividendStocksBackView
+    private let dividendStocksBackView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .systemMint
         uv.heightAnchor.constraint(equalToConstant: 250).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
-    private let dividendStocksBackView: UIView = {
+    private let dividendCollectionBackView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .clear
         uv.heightAnchor.constraint(equalToConstant: 160).isActive = true
@@ -178,24 +229,13 @@ class MainViewController: UIViewController {
         return bt
     }()
     
-    
-    private let exchangeRateView: UIView = {
+    //MARK: - exchangeRateBackView
+    private let exchangeRateBackView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .systemGray6
         uv.heightAnchor.constraint(equalToConstant: 150).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
-    }()
-    private let carouselCollectionView: UICollectionView = {
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .init(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: flowLayout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.white
-        
-        return collectionView
     }()
     
     private let categoryCollectionView: UICollectionView = {
@@ -225,26 +265,12 @@ class MainViewController: UIViewController {
     }()
     
     
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+
     private var currentIdx: Int = 0
-    private let myFavoriteTableView = UITableView(frame: .zero, style: .plain)
+    
     private let stocksTableView = UITableView(frame: .zero, style: .plain)
     
-    private lazy var addFavoriteStock: UIButton = {
-        let bt = UIButton(type: .system)
-        bt.setTitle("관심 주식 담기 및 관리", for: .normal)
-        bt.setTitleColor(UIColor.black, for: .normal)
-        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        bt.backgroundColor = .white
-        bt.layer.cornerRadius = 5
-        bt.layer.borderColor = UIColor.systemGray4.cgColor
-        bt.layer.borderWidth = 1
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.addTarget(self, action: #selector(pushView), for: .touchUpInside)
-        return bt
-    }()
+   
     private lazy var moreStocksBtn: UIButton = {
         let bt = UIButton(type: .system)
         bt.setTitle("더보기", for: .normal)
@@ -267,27 +293,11 @@ class MainViewController: UIViewController {
         
         AlamofireManager.shared.getData { result in
             self.apiData = result
-            
         }
-        myFavoriteTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
-        myFavoriteTableView.delegate = self
-        myFavoriteTableView.dataSource = self
-        myFavoriteTableView.translatesAutoresizingMaskIntoConstraints = false
-        myFavoriteTableView.rowHeight = 60
-        myFavoriteTableView.separatorStyle = .none
-        
-        stocksTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "stocksTableView")
-        stocksTableView.delegate = self
-        stocksTableView.dataSource = self
-        stocksTableView.translatesAutoresizingMaskIntoConstraints = false
-        stocksTableView.rowHeight = 60
-        stocksTableView.separatorStyle = .none
-        stocksTableView.isScrollEnabled = false
-        stocksTableView.allowsSelection = false
         
         initLayout()
-        initCarouselCollectionView()
-        startAutoScroll()
+        initTableViewAndCollectionView()
+        startAutoCarouselScroll()
         
     }
     //MARK: - Actions
@@ -304,26 +314,21 @@ class MainViewController: UIViewController {
     //MARK: - Helpers
     
     func initLayout(){
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+    
+        //MARK: addsubView - scrollView
         view.addSubview(scrollView)
-        scrollView.backgroundColor = .white
-        contentView.backgroundColor = .systemGray6
-        scrollView.addSubview(contentView)
         
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
+        scrollView.addSubview(contentView)
+        
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
-        let stackView = UIStackView(arrangedSubviews: [slideShowView,myFavoriteView,stocksView,dividendStocksView,exchangeRateView])
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(stackView)
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
@@ -332,45 +337,46 @@ class MainViewController: UIViewController {
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         stackView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
+        //MARK: addsubView - favoriteStockBackView
         
-        myFavoriteView.addSubview(myFavoriteBackView)
-        myFavoriteBackView.topAnchor.constraint(equalTo: myFavoriteView.topAnchor, constant: 10).isActive = true
-        myFavoriteBackView.leadingAnchor.constraint(equalTo: myFavoriteView.leadingAnchor, constant: 0).isActive = true
-        myFavoriteBackView.trailingAnchor.constraint(equalTo: myFavoriteView.trailingAnchor).isActive = true
-        myFavoriteBackView.bottomAnchor.constraint(equalTo: myFavoriteView.bottomAnchor, constant: -10).isActive = true
+        favoriteStockBackView.addSubview(favoriteInView)
+        favoriteInView.topAnchor.constraint(equalTo: favoriteStockBackView.topAnchor, constant: 10).isActive = true
+        favoriteInView.leadingAnchor.constraint(equalTo: favoriteStockBackView.leadingAnchor, constant: 0).isActive = true
+        favoriteInView.trailingAnchor.constraint(equalTo: favoriteStockBackView.trailingAnchor).isActive = true
+        favoriteInView.bottomAnchor.constraint(equalTo: favoriteStockBackView.bottomAnchor, constant: -10).isActive = true
         
-        myFavoriteBackView.addSubview(myFavoriteLabel)
-        myFavoriteLabel.topAnchor.constraint(equalTo: myFavoriteBackView.topAnchor, constant: 15).isActive = true
-        myFavoriteLabel.leadingAnchor.constraint(equalTo: myFavoriteBackView.leadingAnchor, constant: 15).isActive = true
+        favoriteInView.addSubview(favoriteTitleLabel)
+        favoriteTitleLabel.topAnchor.constraint(equalTo: favoriteInView.topAnchor, constant: 15).isActive = true
+        favoriteTitleLabel.leadingAnchor.constraint(equalTo: favoriteInView.leadingAnchor, constant: 15).isActive = true
         
-        myFavoriteBackView.addSubview(addFavoriteStock)
-        addFavoriteStock.leadingAnchor.constraint(equalTo: myFavoriteLabel.leadingAnchor, constant: 0).isActive = true
-        addFavoriteStock.bottomAnchor.constraint(equalTo: myFavoriteBackView.bottomAnchor, constant: -15).isActive = true
-        addFavoriteStock.trailingAnchor.constraint(equalTo: myFavoriteBackView.trailingAnchor, constant: -10).isActive = true
+        favoriteInView.addSubview(addFavoriteStock)
+        addFavoriteStock.leadingAnchor.constraint(equalTo: favoriteTitleLabel.leadingAnchor, constant: 0).isActive = true
+        addFavoriteStock.bottomAnchor.constraint(equalTo: favoriteInView.bottomAnchor, constant: -15).isActive = true
+        addFavoriteStock.trailingAnchor.constraint(equalTo: favoriteInView.trailingAnchor, constant: -10).isActive = true
         
-        myFavoriteBackView.addSubview(myFavoriteTableView)
-        myFavoriteTableView.topAnchor.constraint(equalTo: myFavoriteLabel.bottomAnchor,constant: 15).isActive = true
-        myFavoriteTableView.leadingAnchor.constraint(equalTo: myFavoriteLabel.leadingAnchor).isActive = true
-        myFavoriteTableView.trailingAnchor.constraint(equalTo: myFavoriteBackView.trailingAnchor).isActive = true
-        myFavoriteTableView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        myFavoriteTableView.allowsSelection = false
+        favoriteInView.addSubview(favoriteStockTableView)
+        favoriteStockTableView.topAnchor.constraint(equalTo: favoriteTitleLabel.bottomAnchor,constant: 15).isActive = true
+        favoriteStockTableView.leadingAnchor.constraint(equalTo: favoriteTitleLabel.leadingAnchor).isActive = true
+        favoriteStockTableView.trailingAnchor.constraint(equalTo: favoriteInView.trailingAnchor).isActive = true
+        favoriteStockTableView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        favoriteStockTableView.allowsSelection = false
         
-        ///
-        stocksView.addSubview(stocksCategoryView)
-        stocksCategoryView.topAnchor.constraint(equalTo: stocksView.topAnchor).isActive = true
-        stocksCategoryView.leadingAnchor.constraint(equalTo: stocksView.leadingAnchor).isActive = true
-        stocksCategoryView.trailingAnchor.constraint(equalTo: stocksView.trailingAnchor).isActive = true
+        //MARK: addsubView - stocksBackView
         
-        stocksView.addSubview(stocksCategoryUnderLineView)
+        stocksBackView.addSubview(stocksCategoryView)
+        stocksCategoryView.topAnchor.constraint(equalTo: stocksBackView.topAnchor).isActive = true
+        stocksCategoryView.leadingAnchor.constraint(equalTo: stocksBackView.leadingAnchor).isActive = true
+        stocksCategoryView.trailingAnchor.constraint(equalTo: stocksBackView.trailingAnchor).isActive = true
+        
+        stocksBackView.addSubview(stocksCategoryUnderLineView)
         stocksCategoryUnderLineView.topAnchor.constraint(equalTo: stocksCategoryView.bottomAnchor).isActive = true
         stocksCategoryUnderLineView.leadingAnchor.constraint(equalTo: stocksCategoryView.leadingAnchor).isActive = true
         stocksCategoryUnderLineView.trailingAnchor.constraint(equalTo: stocksCategoryView.trailingAnchor).isActive = true
         
-        stocksView.addSubview(stocksCategoryFilterView)
+        stocksBackView.addSubview(stocksCategoryFilterView)
         stocksCategoryFilterView.topAnchor.constraint(equalTo: stocksCategoryUnderLineView.bottomAnchor).isActive = true
         stocksCategoryFilterView.leadingAnchor.constraint(equalTo: stocksCategoryUnderLineView.leadingAnchor).isActive = true
         stocksCategoryFilterView.trailingAnchor.constraint(equalTo: stocksCategoryUnderLineView.trailingAnchor).isActive = true
-        
         
         stocksCategoryFilterView.addSubview(stocksQuestionBtn)
         stocksQuestionBtn.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
@@ -390,10 +396,10 @@ class MainViewController: UIViewController {
         stocksEtfBtn.widthAnchor.constraint(equalToConstant: 100).isActive = true
         stocksEtfBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
         
-        stocksView.addSubview(moreStockView)
-        moreStockView.bottomAnchor.constraint(equalTo: stocksView.bottomAnchor).isActive = true
-        moreStockView.leadingAnchor.constraint(equalTo: stocksView.leadingAnchor).isActive = true
-        moreStockView.trailingAnchor.constraint(equalTo: stocksView.trailingAnchor).isActive = true
+        stocksBackView.addSubview(moreStockView)
+        moreStockView.bottomAnchor.constraint(equalTo: stocksBackView.bottomAnchor).isActive = true
+        moreStockView.leadingAnchor.constraint(equalTo: stocksBackView.leadingAnchor).isActive = true
+        moreStockView.trailingAnchor.constraint(equalTo: stocksBackView.trailingAnchor).isActive = true
         
         moreStockView.addSubview(moreStocksBtn)
         moreStocksBtn.topAnchor.constraint(equalTo: moreStockView.topAnchor, constant: 10).isActive = true
@@ -401,48 +407,68 @@ class MainViewController: UIViewController {
         moreStocksBtn.trailingAnchor.constraint(equalTo: moreStockView.trailingAnchor,constant: -15).isActive = true
         moreStocksBtn.bottomAnchor.constraint(equalTo: moreStockView.bottomAnchor, constant: -10).isActive = true
         
-        stocksView.addSubview(stocksTableView)
+        stocksBackView.addSubview(stocksTableView)
         stocksTableView.topAnchor.constraint(equalTo: stocksCategoryFilterView.bottomAnchor).isActive = true
         stocksTableView.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
         stocksTableView.trailingAnchor.constraint(equalTo: stocksCategoryFilterView.trailingAnchor).isActive = true
         stocksTableView.bottomAnchor.constraint(equalTo: moreStockView.topAnchor).isActive = true
        
         
-        //dividend
+        //MARK: addsubView - dividendStocksBackView
         
-        dividendStocksView.addSubview(dividendStocksBackView)
-        dividendStocksBackView.leadingAnchor.constraint(equalTo: dividendStocksView.leadingAnchor, constant: 25).isActive = true
-        dividendStocksBackView.bottomAnchor.constraint(equalTo: dividendStocksView.bottomAnchor, constant: -25).isActive = true
-        dividendStocksBackView.trailingAnchor.constraint(equalTo: dividendStocksView.trailingAnchor).isActive = true
+        dividendStocksBackView.addSubview(dividendCollectionBackView)
+        dividendCollectionBackView.leadingAnchor.constraint(equalTo: dividendStocksBackView.leadingAnchor, constant: 25).isActive = true
+        dividendCollectionBackView.bottomAnchor.constraint(equalTo: dividendStocksBackView.bottomAnchor, constant: -25).isActive = true
+        dividendCollectionBackView.trailingAnchor.constraint(equalTo: dividendStocksBackView.trailingAnchor).isActive = true
         
-        dividendStocksView.addSubview(dividendTitleLabel)
-        dividendTitleLabel.topAnchor.constraint(equalTo: dividendStocksView.topAnchor, constant: 15).isActive = true
-        dividendTitleLabel.leadingAnchor.constraint(equalTo: dividendStocksView.leadingAnchor, constant: 25).isActive = true
+        dividendStocksBackView.addSubview(dividendTitleLabel)
+        dividendTitleLabel.topAnchor.constraint(equalTo: dividendStocksBackView.topAnchor, constant: 15).isActive = true
+        dividendTitleLabel.leadingAnchor.constraint(equalTo: dividendStocksBackView.leadingAnchor, constant: 25).isActive = true
         
-        dividendStocksView.addSubview(dividendSubTitleLabel)
+        dividendStocksBackView.addSubview(dividendSubTitleLabel)
         dividendSubTitleLabel.topAnchor.constraint(equalTo: dividendTitleLabel.bottomAnchor, constant: 1).isActive = true
         dividendSubTitleLabel.leadingAnchor.constraint(equalTo: dividendTitleLabel.leadingAnchor).isActive = true
         
-        dividendStocksView.addSubview(dividendQuestionBtn)
+        dividendStocksBackView.addSubview(dividendQuestionBtn)
         dividendQuestionBtn.topAnchor.constraint(equalTo: dividendTitleLabel.topAnchor).isActive = true
-        dividendQuestionBtn.trailingAnchor.constraint(equalTo: dividendStocksView.trailingAnchor, constant: -20).isActive = true
+        dividendQuestionBtn.trailingAnchor.constraint(equalTo: dividendStocksBackView.trailingAnchor, constant: -20).isActive = true
         
         
     }
-    func initCarouselCollectionView(){
+    func initTableViewAndCollectionView(){
+        
+        favoriteStockTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
+        favoriteStockTableView.delegate = self
+        favoriteStockTableView.dataSource = self
+        favoriteStockTableView.translatesAutoresizingMaskIntoConstraints = false
+        favoriteStockTableView.rowHeight = 60
+        favoriteStockTableView.separatorStyle = .none
+        
+        stocksTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "stocksTableView")
+        stocksTableView.delegate = self
+        stocksTableView.dataSource = self
+        stocksTableView.translatesAutoresizingMaskIntoConstraints = false
+        stocksTableView.rowHeight = 60
+        stocksTableView.separatorStyle = .none
+        stocksTableView.isScrollEnabled = false
+        stocksTableView.allowsSelection = false
+        
+        //------------------------------------------------
+        
         carouselCollectionView.dataSource = self
         carouselCollectionView.delegate = self
         carouselCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "carouselCollectionView")
-        slideShowView.addSubview(carouselCollectionView)
+        carouselBackView.addSubview(carouselCollectionView)
         carouselCollectionView.showsHorizontalScrollIndicator = false
         carouselCollectionView.isPagingEnabled = true
         NSLayoutConstraint.activate([
-            carouselCollectionView.centerXAnchor.constraint(equalTo: slideShowView.centerXAnchor, constant: 0),
-            carouselCollectionView.centerYAnchor.constraint(equalTo: slideShowView.centerYAnchor, constant: 0),
-            carouselCollectionView.widthAnchor.constraint(equalTo: slideShowView.widthAnchor),
-            carouselCollectionView.heightAnchor.constraint(equalTo: slideShowView.heightAnchor)
+            carouselCollectionView.centerXAnchor.constraint(equalTo: carouselBackView.centerXAnchor, constant: 0),
+            carouselCollectionView.centerYAnchor.constraint(equalTo: carouselBackView.centerYAnchor, constant: 0),
+            carouselCollectionView.widthAnchor.constraint(equalTo: carouselBackView.widthAnchor),
+            carouselCollectionView.heightAnchor.constraint(equalTo: carouselBackView.heightAnchor)
             
         ])
+        
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
         categoryCollectionView.register(CategoryCollectionCell.self, forCellWithReuseIdentifier: "CategoryCollectionCell")
@@ -461,20 +487,18 @@ class MainViewController: UIViewController {
         dividendCollectionView.dataSource = self
         dividendCollectionView.delegate = self
         dividendCollectionView.register(DividendCollectionViewCell.self, forCellWithReuseIdentifier: "DividendCollectionViewCell")
-        dividendStocksBackView.addSubview(dividendCollectionView)
+        dividendCollectionBackView.addSubview(dividendCollectionView)
         dividendCollectionView.isPagingEnabled = true
         dividendCollectionView.showsHorizontalScrollIndicator = false
         NSLayoutConstraint.activate([
-            dividendCollectionView.centerXAnchor.constraint(equalTo: dividendStocksBackView.centerXAnchor, constant: 0),
-            dividendCollectionView.centerYAnchor.constraint(equalTo: dividendStocksBackView.centerYAnchor, constant: 0),
-            dividendCollectionView.widthAnchor.constraint(equalTo: dividendStocksBackView.widthAnchor),
-            dividendCollectionView.heightAnchor.constraint(equalTo: dividendStocksBackView.heightAnchor)
+            dividendCollectionView.centerXAnchor.constraint(equalTo: dividendCollectionBackView.centerXAnchor, constant: 0),
+            dividendCollectionView.centerYAnchor.constraint(equalTo: dividendCollectionBackView.centerYAnchor, constant: 0),
+            dividendCollectionView.widthAnchor.constraint(equalTo: dividendCollectionBackView.widthAnchor),
+            dividendCollectionView.heightAnchor.constraint(equalTo: dividendCollectionBackView.heightAnchor)
             
         ])
-        
-        
     }
-    func startAutoScroll() {
+    func startAutoCarouselScroll() {
         //전체 cell 개수
         let totalCellCount = carouselCollectionView
             .numberOfItems(inSection: 0)
@@ -620,19 +644,21 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
             }
         }
         else if collectionView == dividendCollectionView {
-            print("->com",indexPath.item)
+            
         }
         
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         var width = 0.0
         var height = 0.0
+        
         if collectionView == carouselCollectionView{
             width = collectionView.bounds.width
             height = collectionView.bounds.height
         }
         else if collectionView == dividendCollectionView{
-            width = dividendStocksBackView.frame.width / 3.0 + 10
+            width = dividendCollectionBackView.frame.width / 3.0 + 10
             height = collectionView.bounds.height
         }
         else{
@@ -678,7 +704,7 @@ extension MainViewController : UIScrollViewDelegate {
 
 extension MainViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if myFavoriteTableView == tableView{
+        if favoriteStockTableView == tableView{
             return 1
         }else{
             return self.apiData.count
@@ -686,7 +712,7 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == myFavoriteTableView {
+        if tableView == favoriteStockTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyFavoriteTableViewCell", for: indexPath) as! MyFavoriteTableViewCell?
             
             cell?.underLineView.isHidden = true
