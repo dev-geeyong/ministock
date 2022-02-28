@@ -14,7 +14,8 @@ class MyFavoriteTableViewCell: UITableViewCell{
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.image = UIImage(named: "kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726")
-        
+        iv.layer.borderWidth = 1
+        iv.layer.borderColor = UIColor.systemGray4.cgColor
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -33,7 +34,6 @@ class MyFavoriteTableViewCell: UITableViewCell{
     }()
     let companyNameLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "테슬라"
         lb.font = UIFont.systemFont(ofSize: 18)
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -59,11 +59,12 @@ class MyFavoriteTableViewCell: UITableViewCell{
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .white
         addSubview(stockImageView)
-        stockImageView.backgroundColor = .blue
+//        stockImageView.backgroundColor = .blue
         stockImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         stockImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         stockImageView.widthAnchor.constraint(equalToConstant: 42).isActive = true
         stockImageView.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        
         stockImageView.layer.cornerRadius = 42 / 2
         
         

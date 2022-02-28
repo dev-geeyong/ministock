@@ -7,10 +7,16 @@
 
 import UIKit
 import Alamofire
+import Kingfisher
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
-    
+    var apiData = [DividendElement](){
+        didSet{
+            self.myFavoriteTableView.reloadData()
+            self.stocksTableView.reloadData()
+        }
+    }
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
     var images = ["apple","meta","kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726","samsung","paypal"] {
         didSet{
@@ -213,8 +219,10 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AlamofireManager.shared.getTest()
-        
+        AlamofireManager.shared.getData { result in
+            self.apiData = result
+            
+        }
         myFavoriteTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
         myFavoriteTableView.delegate = self
         myFavoriteTableView.dataSource = self
@@ -459,7 +467,7 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
                 self.stocksCategoryFilterBtn.isHidden = false
                 self.stocksQuestionBtn.isHidden = true
                 self.stocksEtfBtn.isHidden = false
-                
+                self.stocksCategoryFilterBtn.setTitle("전일 기준 ", for: .normal)
             case 2:
                 self.stocksCategoryFilterBtn.isHidden = true
                 self.stocksQuestionBtn.isHidden = false
@@ -471,9 +479,7 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
                 self.stocksQuestionBtn.isHidden = false
                 self.stocksQuestionBtn.setTitle("8시 기준 검색증가순 ", for: .normal)
                 self.stocksEtfBtn.isHidden = true
-                self.images =  self.images.shuffled()
-                
-                
+
             case 4:
                 self.stocksCategoryFilterBtn.isHidden = false
                 self.stocksQuestionBtn.isHidden = true
@@ -481,6 +487,8 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
                 self.stocksEtfBtn.isHidden = true
             case 5:
                 self.stocksCategoryFilterBtn.isHidden = false
+                self.stocksQuestionBtn.isHidden = true
+                self.stocksCategoryFilterBtn.setTitle("시가 총액 ", for: .normal)
                 self.stocksEtfBtn.isHidden = true
             default:
                 print("")
@@ -492,10 +500,11 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
             }else{
                 self.categoryCollectionView.selectItem(at: IndexPath(item: indexPath.item, section: 0), animated: true, scrollPosition: .right)
             }
-            self.images =  self.images.shuffled()
-            self.stocks = self.stocks.shuffled()
+            
+            AlamofireManager.shared.getData { result in
+                self.apiData = result
+            }
         }
-        print("->indexPath.item",indexPath.item)
     }
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
@@ -517,28 +526,7 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
             else{
                 cell.backgroundColor = .purple
             }
-        }else{
-            //
-            //            if indexPath.row == 0 {
-            //                cell.backgroundColor = .red
-            //            }
-            //            else if indexPath.row == 1 {
-            //                cell.backgroundColor = .blue
-            //            }
-            //            else if indexPath.row == 2 {
-            //                cell.backgroundColor = .systemGreen
-            //            }
-            //            else if indexPath.row == 3 {
-            //                cell.backgroundColor = .systemMint
-            //            }
-            //            else if indexPath.row == 4 {
-            //                cell.backgroundColor = .green
-            //            }
-            //            else{
-            //                cell.backgroundColor = .purple
-            //            }
         }
-        
         
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -554,7 +542,6 @@ extension MainViewController: UICollectionViewDataSource,UICollectionViewDelegat
             }
             
             let cellWidth = cell.testLabel.frame.width + 15
-            
             
             width = cellWidth
             
@@ -591,26 +578,31 @@ extension MainViewController : UIScrollViewDelegate {
 
 extension MainViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == myFavoriteTableView {
+        if myFavoriteTableView == tableView{
             return 1
         }else{
-            return 10
+            return self.apiData.count
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == myFavoriteTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyFavoriteTableViewCell", for: indexPath) as! MyFavoriteTableViewCell?
+            
             cell?.underLineView.isHidden = true
+            cell?.companyNameLabel.text = "애플"
+            cell?.stockImageView.image = UIImage(named: "apple")
             return cell!
+            
         }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "stocksTableView", for: indexPath) as! MyFavoriteTableViewCell?
-            if self.images.count > indexPath.row{
-                cell?.stockImageView.image = UIImage(named: self.images[indexPath.row])
-                cell?.stockImageView.backgroundColor = .systemBlue
-            }
-            if self.stocks.count > indexPath.row{
-                cell?.companyNameLabel.text = self.stocks[indexPath.row]
+            if self.apiData.count > indexPath.row{
+                
+                let url = URL(string: "\(self.apiData[indexPath.row].imageURL)")
+                cell?.stockImageView.kf.setImage(with: url, placeholder: UIImage(named: "apple"))
+                cell?.stockNameLabel.text = self.apiData[indexPath.row].stockName
+                cell?.companyNameLabel.text = self.apiData[indexPath.row].stockName
             }
             return cell!
         }
