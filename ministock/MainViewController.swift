@@ -13,12 +13,12 @@ class MainViewController: UIViewController {
     //MARK: - Propertie
     var apiData = [DividendElement](){
         didSet{
-//            self.favoriteStockTableView.reloadData()
             self.stocksTableView.reloadData()
             self.dividendCollectionView.reloadData()
         }
     }
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
+    private var currentIdx: Int = 0
     
     private let scrollView: UIScrollView = {
        let sv = UIScrollView()
@@ -135,7 +135,17 @@ class MainViewController: UIViewController {
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
-
+    private let categoryCollectionView: UICollectionView = {
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: flowLayout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = UIColor.white
+        
+        return collectionView
+    }()
     private lazy var stocksCategoryFilterBtn: UIButton = {
         let bt = UIButton(type: .system)
         bt.setTitle("전일 기준 ", for: .normal)
@@ -180,6 +190,22 @@ class MainViewController: UIViewController {
         bt.contentHorizontalAlignment = .right
         return bt
     }()
+    private lazy var moreStocksBtn: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("더보기", for: .normal)
+        bt.setTitleColor(UIColor.black, for: .normal)
+        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        bt.backgroundColor = .white
+        bt.layer.cornerRadius = 5
+        bt.layer.borderColor = UIColor.systemGray4.cgColor
+        bt.layer.borderWidth = 1
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.addTarget(self, action: #selector(pushView), for: .touchUpInside)
+        return bt
+    }()
+    private let stocksTableView = UITableView(frame: .zero, style: .plain)
+    
     //MARK: - dividendStocksBackView
     private let dividendStocksBackView: UIView = {
         let uv = UIView()
@@ -228,27 +254,6 @@ class MainViewController: UIViewController {
         
         return bt
     }()
-    
-    //MARK: - exchangeRateBackView
-    private let exchangeRateBackView: UIView = {
-        let uv = UIView()
-        uv.backgroundColor = .systemGray6
-        uv.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        uv.translatesAutoresizingMaskIntoConstraints = false
-        return uv
-    }()
-    
-    private let categoryCollectionView: UICollectionView = {
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: flowLayout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.white
-        
-        return collectionView
-    }()
     private let dividendCollectionView: UICollectionView = {
         
         let flowLayout = UICollectionViewFlowLayout()
@@ -264,26 +269,53 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
-    
-
-    private var currentIdx: Int = 0
-    
-    private let stocksTableView = UITableView(frame: .zero, style: .plain)
-    
-   
-    private lazy var moreStocksBtn: UIButton = {
-        let bt = UIButton(type: .system)
-        bt.setTitle("더보기", for: .normal)
-        bt.setTitleColor(UIColor.black, for: .normal)
-        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        bt.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        bt.backgroundColor = .white
-        bt.layer.cornerRadius = 5
-        bt.layer.borderColor = UIColor.systemGray4.cgColor
-        bt.layer.borderWidth = 1
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.addTarget(self, action: #selector(pushView), for: .touchUpInside)
-        return bt
+    //MARK: - exchangeRateBackView
+    private let exchangeRateBackView: UIView = {
+        let uv = UIView()
+        uv.backgroundColor = .systemGray6
+        uv.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        uv.translatesAutoresizingMaskIntoConstraints = false
+        return uv
+    }()
+    private let exchangeRateInView: UIView = {
+        let uv = UIView()
+        uv.backgroundColor = .white
+        uv.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        uv.translatesAutoresizingMaskIntoConstraints = false
+        return uv
+    }()
+    private let exchangeRateLabel: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont.systemFont(ofSize: 18)
+        lb.text = "원달러 환율"
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    private let exchangeRateDateLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "2월 22일 최초고시환율"
+        lb.font = UIFont.systemFont(ofSize: 12)
+        lb.textColor = .systemGray
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    private let currentExchangeRateLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "1,194.60원"
+        lb.font = UIFont.systemFont(ofSize: 18)
+        lb.textColor = .black
+        lb.textAlignment = .right
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    private let percentChangeLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "+1.18%"
+        lb.font = UIFont.systemFont(ofSize: 15)
+        lb.textColor = .red
+        lb.textAlignment = .right
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
     }()
     
     //MARK: - Lifecycle
@@ -433,6 +465,28 @@ class MainViewController: UIViewController {
         dividendQuestionBtn.topAnchor.constraint(equalTo: dividendTitleLabel.topAnchor).isActive = true
         dividendQuestionBtn.trailingAnchor.constraint(equalTo: dividendStocksBackView.trailingAnchor, constant: -20).isActive = true
         
+        //MARK: addsubView - exchangeRateInView
+        
+        exchangeRateBackView.addSubview(exchangeRateInView)
+        exchangeRateInView.topAnchor.constraint(equalTo: exchangeRateBackView.topAnchor, constant: 15).isActive = true
+        exchangeRateInView.leadingAnchor.constraint(equalTo: exchangeRateBackView.leadingAnchor).isActive = true
+        exchangeRateInView.trailingAnchor.constraint(equalTo: exchangeRateBackView.trailingAnchor).isActive = true
+        
+        exchangeRateInView.addSubview(exchangeRateLabel)
+        exchangeRateLabel.centerYAnchor.constraint(equalTo: exchangeRateInView.centerYAnchor, constant: -10).isActive = true
+        exchangeRateLabel.leadingAnchor.constraint(equalTo: exchangeRateInView.leadingAnchor, constant: 25).isActive = true
+        
+        exchangeRateInView.addSubview(exchangeRateDateLabel)
+        exchangeRateDateLabel.topAnchor.constraint(equalTo: exchangeRateLabel.bottomAnchor).isActive = true
+        exchangeRateDateLabel.leadingAnchor.constraint(equalTo: exchangeRateLabel.leadingAnchor).isActive = true
+        
+        exchangeRateInView.addSubview(currentExchangeRateLabel)
+        currentExchangeRateLabel.topAnchor.constraint(equalTo: exchangeRateLabel.topAnchor).isActive = true
+        currentExchangeRateLabel.trailingAnchor.constraint(equalTo: exchangeRateInView.trailingAnchor, constant: -25).isActive = true
+        
+        exchangeRateInView.addSubview(percentChangeLabel)
+        percentChangeLabel.topAnchor.constraint(equalTo: currentExchangeRateLabel.bottomAnchor).isActive = true
+        percentChangeLabel.trailingAnchor.constraint(equalTo: currentExchangeRateLabel.trailingAnchor).isActive = true
         
     }
     func initTableViewAndCollectionView(){
@@ -469,6 +523,8 @@ class MainViewController: UIViewController {
             
         ])
         
+        //------------------------------------------------
+        
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
         categoryCollectionView.register(CategoryCollectionCell.self, forCellWithReuseIdentifier: "CategoryCollectionCell")
@@ -483,6 +539,8 @@ class MainViewController: UIViewController {
             categoryCollectionView.heightAnchor.constraint(equalTo: stocksCategoryView.heightAnchor)
             
         ])
+        
+        //------------------------------------------------
         
         dividendCollectionView.dataSource = self
         dividendCollectionView.delegate = self
