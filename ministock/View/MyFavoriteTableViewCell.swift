@@ -14,7 +14,8 @@ class MyFavoriteTableViewCell: UITableViewCell{
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.image = UIImage(named: "kisspng-tesla-motors-electric-car-electric-vehicle-logo-tesla-5ac2de39ed7200.6105417915227203139726")
-        
+        iv.layer.borderWidth = 1
+        iv.layer.borderColor = UIColor.systemGray4.cgColor
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -33,7 +34,6 @@ class MyFavoriteTableViewCell: UITableViewCell{
     }()
     let companyNameLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "테슬라"
         lb.font = UIFont.systemFont(ofSize: 18)
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -43,6 +43,24 @@ class MyFavoriteTableViewCell: UITableViewCell{
         lb.text = "TSLA"
         lb.font = UIFont.systemFont(ofSize: 12)
         lb.textColor = .systemGray
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    let currentPriceLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "17,877원"
+        lb.font = UIFont.systemFont(ofSize: 15)
+        lb.textColor = .black
+        lb.textAlignment = .right
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    let percentChangeLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "+18.88%"
+        lb.font = UIFont.systemFont(ofSize: 18)
+        lb.textColor = .red
+        lb.textAlignment = .right
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -59,13 +77,12 @@ class MyFavoriteTableViewCell: UITableViewCell{
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .white
         addSubview(stockImageView)
-        stockImageView.backgroundColor = .blue
         stockImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         stockImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         stockImageView.widthAnchor.constraint(equalToConstant: 42).isActive = true
         stockImageView.heightAnchor.constraint(equalToConstant: 42).isActive = true
-        stockImageView.layer.cornerRadius = 42 / 2
         
+        stockImageView.layer.cornerRadius = 42 / 2
         
         addSubview(underLineView)
         underLineView.leadingAnchor.constraint(equalTo: stockImageView.leadingAnchor).isActive = true
@@ -79,27 +96,30 @@ class MyFavoriteTableViewCell: UITableViewCell{
         
         leftView.addSubview(companyNameLabel)
         companyNameLabel.centerYAnchor.constraint(equalTo: leftView.centerYAnchor).isActive = true
-//        companyNameLabel.topAnchor.constraint(equalTo: leftView.topAnchor).isActive = true
         companyNameLabel.leadingAnchor.constraint(equalTo: leftView.leadingAnchor, constant: 0).isActive = true
         companyNameLabel.widthAnchor.constraint(equalTo: leftView.widthAnchor).isActive = true
         
         leftView.addSubview(stockNameLabel)
         stockNameLabel.topAnchor.constraint(equalTo: companyNameLabel.bottomAnchor).isActive = true
         stockNameLabel.leadingAnchor.constraint(equalTo: companyNameLabel.leadingAnchor).isActive = true
+        stockNameLabel.widthAnchor.constraint(equalTo: leftView.widthAnchor).isActive = true
         
         addSubview(rightView)
-        rightView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
+        rightView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        rightView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
         rightView.heightAnchor.constraint(equalTo: stockImageView.heightAnchor).isActive = true
         rightView.leadingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: 0).isActive = true
         
+        rightView.addSubview(percentChangeLabel)
+        percentChangeLabel.centerYAnchor.constraint(equalTo: rightView.centerYAnchor).isActive = true
+
+        percentChangeLabel.trailingAnchor.constraint(equalTo: rightView.trailingAnchor, constant: 0).isActive = true
+        percentChangeLabel.widthAnchor.constraint(equalTo: rightView.widthAnchor).isActive = true
         
-//        addSubview(leftView)
-////        addSubview(rightView)
-////
-//        leftView.leadingAnchor.constraint(equalTo: stockImageView.rightAnchor).isActive = true
-//        leftView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-//        leftView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-//        leftView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        rightView.addSubview(currentPriceLabel)
+        currentPriceLabel.widthAnchor.constraint(equalTo: rightView.widthAnchor).isActive = true
+        currentPriceLabel.topAnchor.constraint(equalTo: percentChangeLabel.bottomAnchor).isActive = true
+        currentPriceLabel.trailingAnchor.constraint(equalTo: percentChangeLabel.trailingAnchor).isActive = true
         
     }
     
