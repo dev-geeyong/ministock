@@ -13,8 +13,9 @@ class MainViewController: UIViewController {
     //MARK: - Propertie
     var apiData = [DividendElement](){
         didSet{
-            self.stocksTableView.reloadData()
+
             self.dividendCollectionView.reloadData()
+            UIView.transition(with: stocksTableView, duration: 0.3, options: .transitionCrossDissolve, animations: {self.stocksTableView.reloadData()}, completion: nil)
         }
     }
     var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
