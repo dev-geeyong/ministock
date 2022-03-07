@@ -88,7 +88,7 @@ class MyFavoriteTableViewCell: UITableViewCell{
         underLineView.leadingAnchor.constraint(equalTo: stockImageView.leadingAnchor).isActive = true
         underLineView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         underLineView.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15).isActive = true
-        
+         
         addSubview(leftView)
         leftView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
         leftView.heightAnchor.constraint(equalTo: stockImageView.heightAnchor).isActive = true
