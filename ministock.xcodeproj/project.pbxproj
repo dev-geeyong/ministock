@@ -15,6 +15,9 @@
 		469B01D127C5C5B800E41784 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B01D027C5C5B800E41784 /* PopUpViewController.swift */; };
 		469B021227C7678D00E41784 /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B021127C7678D00E41784 /* AlamofireManager.swift */; };
 		469B021627C76AC500E41784 /* IncreaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B021527C76AC500E41784 /* IncreaseModel.swift */; };
+		46B4714B27D59AA9000E1AE0 /* CarouselBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4714A27D59AA9000E1AE0 /* CarouselBackView.swift */; };
+		46B4714D27D5B2B0000E1AE0 /* FavoriteStockBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4714C27D5B2B0000E1AE0 /* FavoriteStockBackView.swift */; };
+		46B4714F27D5BA71000E1AE0 /* StocksBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4714E27D5BA71000E1AE0 /* StocksBackView.swift */; };
 		6AAD302327C3198100228673 /* MainTapBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302227C3198100228673 /* MainTapBarController.swift */; };
 		6AAD302527C31ACA00228673 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302427C31ACA00228673 /* SearchViewController.swift */; };
 		6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302627C31B1700228673 /* ThemesViewController.swift */; };
@@ -38,6 +41,9 @@
 		469B01D027C5C5B800E41784 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		469B021127C7678D00E41784 /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		469B021527C76AC500E41784 /* IncreaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreaseModel.swift; sourceTree = "<group>"; };
+		46B4714A27D59AA9000E1AE0 /* CarouselBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselBackView.swift; sourceTree = "<group>"; };
+		46B4714C27D5B2B0000E1AE0 /* FavoriteStockBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStockBackView.swift; sourceTree = "<group>"; };
+		46B4714E27D5BA71000E1AE0 /* StocksBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksBackView.swift; sourceTree = "<group>"; };
 		5FA2412691C0FCA581C27425 /* Pods-ministock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ministock.release.xcconfig"; path = "Target Support Files/Pods-ministock/Pods-ministock.release.xcconfig"; sourceTree = "<group>"; };
 		6AAD302227C3198100228673 /* MainTapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarController.swift; sourceTree = "<group>"; };
 		6AAD302427C31ACA00228673 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -81,9 +87,13 @@
 		46955AD127CC92B6002C4857 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				469B01D027C5C5B800E41784 /* PopUpViewController.swift */,
 				6AAD302C27C3609C00228673 /* MyFavoriteTableViewCell.swift */,
 				46955ACA27CC76A4002C4857 /* DividendCollectionViewCell.swift */,
 				469B01CE27C48F3400E41784 /* CategoryCollectionCell.swift */,
+				46B4714A27D59AA9000E1AE0 /* CarouselBackView.swift */,
+				46B4714E27D5BA71000E1AE0 /* StocksBackView.swift */,
+				46B4714C27D5B2B0000E1AE0 /* FavoriteStockBackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -102,6 +112,19 @@
 				469B021527C76AC500E41784 /* IncreaseModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		46B4714927D59975000E1AE0 /* TapBar */ = {
+			isa = PBXGroup;
+			children = (
+				6AAD302227C3198100228673 /* MainTapBarController.swift */,
+				6ACD5F4627BB24E900D74C1F /* MainViewController.swift */,
+				6AAD302427C31ACA00228673 /* SearchViewController.swift */,
+				6AAD302627C31B1700228673 /* ThemesViewController.swift */,
+				6AAD302827C31B3B00228673 /* AccountViewController.swift */,
+				6AAD302A27C31B5500228673 /* SettingViewController.swift */,
+			);
+			path = TapBar;
 			sourceTree = "<group>";
 		};
 		6ACD5F3627BB24E900D74C1F = {
@@ -127,13 +150,7 @@
 			children = (
 				6ACD5F4227BB24E900D74C1F /* AppDelegate.swift */,
 				6ACD5F4427BB24E900D74C1F /* SceneDelegate.swift */,
-				6ACD5F4627BB24E900D74C1F /* MainViewController.swift */,
-				6AAD302227C3198100228673 /* MainTapBarController.swift */,
-				469B01D027C5C5B800E41784 /* PopUpViewController.swift */,
-				6AAD302427C31ACA00228673 /* SearchViewController.swift */,
-				6AAD302627C31B1700228673 /* ThemesViewController.swift */,
-				6AAD302827C31B3B00228673 /* AccountViewController.swift */,
-				6AAD302A27C31B5500228673 /* SettingViewController.swift */,
+				46B4714927D59975000E1AE0 /* TapBar */,
 				46955AD127CC92B6002C4857 /* View */,
 				46955ACC27CC870B002C4857 /* ViewModel */,
 				469B021427C76AA800E41784 /* Model */,
@@ -296,10 +313,13 @@
 				6ACD5F4327BB24E900D74C1F /* AppDelegate.swift in Sources */,
 				46955ACE27CC871B002C4857 /* DividendViewModel.swift in Sources */,
 				469B01CF27C48F3400E41784 /* CategoryCollectionCell.swift in Sources */,
+				46B4714B27D59AA9000E1AE0 /* CarouselBackView.swift in Sources */,
+				46B4714D27D5B2B0000E1AE0 /* FavoriteStockBackView.swift in Sources */,
 				6ACD5F4527BB24E900D74C1F /* SceneDelegate.swift in Sources */,
 				46955ACB27CC76A4002C4857 /* DividendCollectionViewCell.swift in Sources */,
 				6AAD302D27C3609C00228673 /* MyFavoriteTableViewCell.swift in Sources */,
 				6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */,
+				46B4714F27D5BA71000E1AE0 /* StocksBackView.swift in Sources */,
 				6AAD302327C3198100228673 /* MainTapBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
