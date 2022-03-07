@@ -8,6 +8,7 @@
 import UIKit
 import Alamofire
 import Kingfisher
+import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
@@ -86,7 +87,7 @@ class MainViewController: UIViewController {
         return lb
     }()
     private let favoriteStockTableView = UITableView(frame: .zero, style: .plain)
-    private lazy var addFavoriteStock: UIButton = {
+    private lazy var addFavoriteStockBtn: UIButton = {
         let bt = UIButton(type: .system)
         bt.setTitle("관심 주식 담기 및 관리", for: .normal)
         bt.setTitleColor(UIColor.black, for: .normal)
@@ -110,7 +111,7 @@ class MainViewController: UIViewController {
     }()
     private let stocksCategoryView: UIView = {
         let uv = UIView()
-        uv.backgroundColor = .white
+        uv.backgroundColor = .red
         uv.heightAnchor.constraint(equalToConstant: 50).isActive = true
         uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
@@ -350,145 +351,173 @@ class MainViewController: UIViewController {
     
         //MARK: addsubView - scrollView
         view.addSubview(scrollView)
-        
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
+        scrollView.snp.makeConstraints { make in
+            make.centerX.width.top.bottom.equalToSuperview()
+        }
+   
         scrollView.addSubview(contentView)
-        
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
+        contentView.snp.makeConstraints { make in
+            make.centerX.width.top.bottom.equalTo(scrollView)
+        }
+    
         contentView.addSubview(stackView)
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        stackView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
-        
+        stackView.snp.makeConstraints { make in
+            make.top.left.right.bottom.height.equalTo(contentView)
+        }
+
         //MARK: addsubView - favoriteStockBackView
-        
         favoriteStockBackView.addSubview(favoriteInView)
-        favoriteInView.topAnchor.constraint(equalTo: favoriteStockBackView.topAnchor, constant: 10).isActive = true
-        favoriteInView.leadingAnchor.constraint(equalTo: favoriteStockBackView.leadingAnchor, constant: 0).isActive = true
-        favoriteInView.trailingAnchor.constraint(equalTo: favoriteStockBackView.trailingAnchor).isActive = true
-        favoriteInView.bottomAnchor.constraint(equalTo: favoriteStockBackView.bottomAnchor, constant: -10).isActive = true
+        favoriteInView.snp.makeConstraints { make in
+            make.top.equalTo(favoriteStockBackView).offset(10)
+            make.left.right.equalTo(favoriteStockBackView)
+            make.bottom.equalTo(favoriteStockBackView).offset(-10)
+        }
         
         favoriteInView.addSubview(favoriteTitleLabel)
-        favoriteTitleLabel.topAnchor.constraint(equalTo: favoriteInView.topAnchor, constant: 15).isActive = true
-        favoriteTitleLabel.leadingAnchor.constraint(equalTo: favoriteInView.leadingAnchor, constant: 15).isActive = true
-        
-        favoriteInView.addSubview(addFavoriteStock)
-        addFavoriteStock.leadingAnchor.constraint(equalTo: favoriteTitleLabel.leadingAnchor, constant: 0).isActive = true
-        addFavoriteStock.bottomAnchor.constraint(equalTo: favoriteInView.bottomAnchor, constant: -15).isActive = true
-        addFavoriteStock.trailingAnchor.constraint(equalTo: favoriteInView.trailingAnchor, constant: -10).isActive = true
-        
+        favoriteTitleLabel.snp.makeConstraints { make in
+            make.top.left.equalTo(favoriteInView).offset(15)
+        }
+    
+        favoriteInView.addSubview(addFavoriteStockBtn)
+        addFavoriteStockBtn.snp.makeConstraints { make in
+            make.left.equalTo(favoriteTitleLabel)
+            make.bottom.equalTo(favoriteInView).offset(-15)
+            make.right.equalTo(favoriteInView).offset(-10)
+        }
+
         favoriteInView.addSubview(favoriteStockTableView)
-        favoriteStockTableView.topAnchor.constraint(equalTo: favoriteTitleLabel.bottomAnchor,constant: 15).isActive = true
-        favoriteStockTableView.leadingAnchor.constraint(equalTo: favoriteTitleLabel.leadingAnchor).isActive = true
-        favoriteStockTableView.trailingAnchor.constraint(equalTo: favoriteInView.trailingAnchor).isActive = true
-        favoriteStockTableView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        favoriteStockTableView.snp.makeConstraints { make in
+            make.top.equalTo(favoriteTitleLabel.snp.bottom).offset(15)
+            make.left.equalTo(favoriteTitleLabel)
+            make.right.equalTo(favoriteInView)
+            make.height.equalTo(60)
+            
+        }
         favoriteStockTableView.allowsSelection = false
         
         //MARK: addsubView - stocksBackView
         
         stocksBackView.addSubview(stocksCategoryView)
-        stocksCategoryView.topAnchor.constraint(equalTo: stocksBackView.topAnchor).isActive = true
-        stocksCategoryView.leadingAnchor.constraint(equalTo: stocksBackView.leadingAnchor).isActive = true
-        stocksCategoryView.trailingAnchor.constraint(equalTo: stocksBackView.trailingAnchor).isActive = true
-        
+        stocksCategoryView.snp.makeConstraints { make in
+            make.top.left.right.equalTo(stocksBackView)
+        }
+      
         stocksBackView.addSubview(stocksCategoryUnderLineView)
-        stocksCategoryUnderLineView.topAnchor.constraint(equalTo: stocksCategoryView.bottomAnchor).isActive = true
-        stocksCategoryUnderLineView.leadingAnchor.constraint(equalTo: stocksCategoryView.leadingAnchor).isActive = true
-        stocksCategoryUnderLineView.trailingAnchor.constraint(equalTo: stocksCategoryView.trailingAnchor).isActive = true
+        stocksCategoryUnderLineView.snp.makeConstraints { make in
+            make.top.equalTo(stocksCategoryView.snp.bottom)
+            make.left.equalTo(stocksCategoryView.snp.left)
+            make.right.equalTo(stocksCategoryView.snp.right)
+        }
+        
         
         stocksBackView.addSubview(stocksCategoryFilterView)
-        stocksCategoryFilterView.topAnchor.constraint(equalTo: stocksCategoryUnderLineView.bottomAnchor).isActive = true
-        stocksCategoryFilterView.leadingAnchor.constraint(equalTo: stocksCategoryUnderLineView.leadingAnchor).isActive = true
-        stocksCategoryFilterView.trailingAnchor.constraint(equalTo: stocksCategoryUnderLineView.trailingAnchor).isActive = true
+        stocksCategoryFilterView.snp.makeConstraints { make in
+            make.top.equalTo(stocksCategoryUnderLineView.snp.bottom)
+            make.leading.trailing.equalTo(stocksCategoryUnderLineView)
+        }
         
         stocksCategoryFilterView.addSubview(stocksQuestionBtn)
-        stocksQuestionBtn.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
-        stocksQuestionBtn.centerYAnchor.constraint(equalTo: stocksCategoryFilterView.centerYAnchor).isActive = true
-        stocksQuestionBtn.widthAnchor.constraint(equalToConstant: 130).isActive = true
-        stocksQuestionBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
+        stocksQuestionBtn.snp.makeConstraints { make in
+            make.leading.equalTo(stocksCategoryFilterView).offset(15)
+            make.width.equalTo(130)
+            make.centerY.height.equalTo(stocksCategoryFilterView)
+        }
         
         stocksCategoryFilterView.addSubview(stocksCategoryFilterBtn)
-        stocksCategoryFilterBtn.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
-        stocksCategoryFilterBtn.centerYAnchor.constraint(equalTo: stocksCategoryFilterView.centerYAnchor).isActive = true
-        stocksCategoryFilterBtn.widthAnchor.constraint(equalToConstant: 130).isActive = true
-        stocksCategoryFilterBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
+        stocksCategoryFilterBtn.snp.makeConstraints { make in
+            make.centerY.height.equalTo(stocksCategoryFilterView)
+            make.leading.equalTo(stocksCategoryFilterView).offset(15)
+            make.width.equalTo(130)
+        }
         
         stocksCategoryFilterView.addSubview(stocksEtfBtn)
-        stocksEtfBtn.trailingAnchor.constraint(equalTo: stocksCategoryFilterView.trailingAnchor,constant: -15).isActive = true
-        stocksEtfBtn.centerYAnchor.constraint(equalTo: stocksCategoryFilterView.centerYAnchor).isActive = true
-        stocksEtfBtn.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        stocksEtfBtn.heightAnchor.constraint(equalTo: stocksCategoryFilterView.heightAnchor).isActive = true
+        stocksEtfBtn.snp.makeConstraints { make in
+            make.trailing.equalTo(stocksCategoryFilterView).offset(-15)
+            make.centerY.height.equalTo(stocksCategoryFilterView)
+            make.width.equalTo(100)
+            
+        }
         
         stocksBackView.addSubview(moreStockView)
-        moreStockView.bottomAnchor.constraint(equalTo: stocksBackView.bottomAnchor).isActive = true
-        moreStockView.leadingAnchor.constraint(equalTo: stocksBackView.leadingAnchor).isActive = true
-        moreStockView.trailingAnchor.constraint(equalTo: stocksBackView.trailingAnchor).isActive = true
+        moreStockView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalTo(stocksBackView)
+        }
         
         moreStockView.addSubview(moreStocksBtn)
-        moreStocksBtn.topAnchor.constraint(equalTo: moreStockView.topAnchor, constant: 10).isActive = true
-        moreStocksBtn.leadingAnchor.constraint(equalTo: moreStockView.leadingAnchor, constant: 15).isActive = true
-        moreStocksBtn.trailingAnchor.constraint(equalTo: moreStockView.trailingAnchor,constant: -15).isActive = true
-        moreStocksBtn.bottomAnchor.constraint(equalTo: moreStockView.bottomAnchor, constant: -10).isActive = true
+        moreStocksBtn.snp.makeConstraints { make in
+            make.top.equalTo(moreStockView).offset(10)
+            make.bottom.equalTo(moreStockView).offset(-10)
+            make.leading.equalTo(moreStockView).offset(15)
+            make.trailing.equalTo(moreStockView).offset(-15)
+        }
         
         stocksBackView.addSubview(stocksTableView)
-        stocksTableView.topAnchor.constraint(equalTo: stocksCategoryFilterView.bottomAnchor).isActive = true
-        stocksTableView.leadingAnchor.constraint(equalTo: stocksCategoryFilterView.leadingAnchor, constant: 15).isActive = true
-        stocksTableView.trailingAnchor.constraint(equalTo: stocksCategoryFilterView.trailingAnchor).isActive = true
-        stocksTableView.bottomAnchor.constraint(equalTo: moreStockView.topAnchor).isActive = true
+        stocksTableView.snp.makeConstraints { make in
+            make.top.equalTo(stocksCategoryFilterView.snp.bottom)
+            make.leading.equalTo(stocksCategoryFilterView.snp.leading).offset(15)
+            make.trailing.equalTo(stocksCategoryFilterView.snp.trailing)
+            make.bottom.equalTo(moreStockView.snp.top)
+            
+        }
        
-        
         //MARK: addsubView - dividendStocksBackView
         
         dividendStocksBackView.addSubview(dividendCollectionBackView)
-        dividendCollectionBackView.leadingAnchor.constraint(equalTo: dividendStocksBackView.leadingAnchor, constant: 25).isActive = true
-        dividendCollectionBackView.bottomAnchor.constraint(equalTo: dividendStocksBackView.bottomAnchor, constant: -25).isActive = true
-        dividendCollectionBackView.trailingAnchor.constraint(equalTo: dividendStocksBackView.trailingAnchor).isActive = true
+        dividendCollectionBackView.snp.makeConstraints { make in
+            make.leading.equalTo(dividendStocksBackView).offset(25)
+            make.bottom.equalTo(dividendStocksBackView).offset(-25)
+            make.trailing.equalTo(dividendStocksBackView)
+        }
         
         dividendStocksBackView.addSubview(dividendTitleLabel)
-        dividendTitleLabel.topAnchor.constraint(equalTo: dividendStocksBackView.topAnchor, constant: 15).isActive = true
-        dividendTitleLabel.leadingAnchor.constraint(equalTo: dividendStocksBackView.leadingAnchor, constant: 25).isActive = true
+        dividendTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(dividendStocksBackView).offset(15)
+            make.leading.equalTo(dividendStocksBackView).offset(25)
+        }
         
         dividendStocksBackView.addSubview(dividendSubTitleLabel)
-        dividendSubTitleLabel.topAnchor.constraint(equalTo: dividendTitleLabel.bottomAnchor, constant: 1).isActive = true
-        dividendSubTitleLabel.leadingAnchor.constraint(equalTo: dividendTitleLabel.leadingAnchor).isActive = true
+        dividendSubTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(dividendTitleLabel.snp.bottom)
+            make.leading.equalTo(dividendTitleLabel.snp.leading)
+        }
         
         dividendStocksBackView.addSubview(dividendQuestionBtn)
-        dividendQuestionBtn.topAnchor.constraint(equalTo: dividendTitleLabel.topAnchor).isActive = true
-        dividendQuestionBtn.trailingAnchor.constraint(equalTo: dividendStocksBackView.trailingAnchor, constant: -20).isActive = true
+        dividendQuestionBtn.snp.makeConstraints { make in
+            make.top.equalTo(dividendTitleLabel.snp.top)
+            make.trailing.equalTo(dividendStocksBackView.snp.trailing).offset(-20)
+        }
         
         //MARK: addsubView - exchangeRateInView
         
         exchangeRateBackView.addSubview(exchangeRateInView)
-        exchangeRateInView.topAnchor.constraint(equalTo: exchangeRateBackView.topAnchor, constant: 15).isActive = true
-        exchangeRateInView.leadingAnchor.constraint(equalTo: exchangeRateBackView.leadingAnchor).isActive = true
-        exchangeRateInView.trailingAnchor.constraint(equalTo: exchangeRateBackView.trailingAnchor).isActive = true
+        exchangeRateInView.snp.makeConstraints { make in
+            make.top.equalTo(exchangeRateBackView.snp.top).offset(15)
+            make.leading.trailing.equalTo(exchangeRateBackView)
+        }
         
         exchangeRateInView.addSubview(exchangeRateLabel)
-        exchangeRateLabel.centerYAnchor.constraint(equalTo: exchangeRateInView.centerYAnchor, constant: -10).isActive = true
-        exchangeRateLabel.leadingAnchor.constraint(equalTo: exchangeRateInView.leadingAnchor, constant: 25).isActive = true
+        exchangeRateLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(exchangeRateInView).offset(-10)
+            make.leading.equalTo(exchangeRateInView).offset(25)
+        }
         
         exchangeRateInView.addSubview(exchangeRateDateLabel)
-        exchangeRateDateLabel.topAnchor.constraint(equalTo: exchangeRateLabel.bottomAnchor).isActive = true
-        exchangeRateDateLabel.leadingAnchor.constraint(equalTo: exchangeRateLabel.leadingAnchor).isActive = true
+        exchangeRateDateLabel.snp.makeConstraints { make in
+            make.top.equalTo(exchangeRateLabel.snp.bottom)
+            make.leading.equalTo(exchangeRateLabel)
+        }
         
         exchangeRateInView.addSubview(currentExchangeRateLabel)
-        currentExchangeRateLabel.topAnchor.constraint(equalTo: exchangeRateLabel.topAnchor).isActive = true
-        currentExchangeRateLabel.trailingAnchor.constraint(equalTo: exchangeRateInView.trailingAnchor, constant: -25).isActive = true
+        currentExchangeRateLabel.snp.makeConstraints { make in
+            make.top.equalTo(exchangeRateLabel)
+            make.trailing.equalTo(exchangeRateInView.snp.trailing).offset(-25)
+        }
         
         exchangeRateInView.addSubview(percentChangeLabel)
-        percentChangeLabel.topAnchor.constraint(equalTo: currentExchangeRateLabel.bottomAnchor).isActive = true
-        percentChangeLabel.trailingAnchor.constraint(equalTo: currentExchangeRateLabel.trailingAnchor).isActive = true
-        
+        percentChangeLabel.snp.makeConstraints { make in
+            make.top.equalTo(currentExchangeRateLabel.snp.bottom)
+            make.trailing.equalTo(currentExchangeRateLabel.snp.trailing)
+        }
     }
     func initTableViewAndCollectionView(){
         
@@ -513,49 +542,40 @@ class MainViewController: UIViewController {
         carouselCollectionView.dataSource = self
         carouselCollectionView.delegate = self
         carouselCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "carouselCollectionView")
-        carouselBackView.addSubview(carouselCollectionView)
         carouselCollectionView.showsHorizontalScrollIndicator = false
         carouselCollectionView.isPagingEnabled = true
-        NSLayoutConstraint.activate([
-            carouselCollectionView.centerXAnchor.constraint(equalTo: carouselBackView.centerXAnchor, constant: 0),
-            carouselCollectionView.centerYAnchor.constraint(equalTo: carouselBackView.centerYAnchor, constant: 0),
-            carouselCollectionView.widthAnchor.constraint(equalTo: carouselBackView.widthAnchor),
-            carouselCollectionView.heightAnchor.constraint(equalTo: carouselBackView.heightAnchor)
-            
-        ])
+        carouselBackView.addSubview(carouselCollectionView)
+        
+        carouselCollectionView.snp.makeConstraints { make in
+            make.centerX.centerY.width.height.equalTo(carouselBackView)
+        }
         
         //------------------------------------------------
         
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
         categoryCollectionView.register(CategoryCollectionCell.self, forCellWithReuseIdentifier: "CategoryCollectionCell")
-        stocksCategoryView.addSubview(categoryCollectionView)
-        
         categoryCollectionView.isPagingEnabled = true
         categoryCollectionView.showsHorizontalScrollIndicator = false
-        NSLayoutConstraint.activate([
-            categoryCollectionView.centerXAnchor.constraint(equalTo: stocksCategoryView.centerXAnchor, constant: 0),
-            categoryCollectionView.centerYAnchor.constraint(equalTo: stocksCategoryView.centerYAnchor, constant: 0),
-            categoryCollectionView.widthAnchor.constraint(equalTo: stocksCategoryView.widthAnchor),
-            categoryCollectionView.heightAnchor.constraint(equalTo: stocksCategoryView.heightAnchor)
-            
-        ])
+        stocksCategoryView.addSubview(categoryCollectionView)
+
+        categoryCollectionView.snp.makeConstraints { make in
+            make.centerX.centerY.width.height.equalTo(stocksCategoryView)
+        }
+
         
         //------------------------------------------------
         
         dividendCollectionView.dataSource = self
         dividendCollectionView.delegate = self
         dividendCollectionView.register(DividendCollectionViewCell.self, forCellWithReuseIdentifier: "DividendCollectionViewCell")
-        dividendCollectionBackView.addSubview(dividendCollectionView)
         dividendCollectionView.isPagingEnabled = true
         dividendCollectionView.showsHorizontalScrollIndicator = false
-        NSLayoutConstraint.activate([
-            dividendCollectionView.centerXAnchor.constraint(equalTo: dividendCollectionBackView.centerXAnchor, constant: 0),
-            dividendCollectionView.centerYAnchor.constraint(equalTo: dividendCollectionBackView.centerYAnchor, constant: 0),
-            dividendCollectionView.widthAnchor.constraint(equalTo: dividendCollectionBackView.widthAnchor),
-            dividendCollectionView.heightAnchor.constraint(equalTo: dividendCollectionBackView.heightAnchor)
-            
-        ])
+        dividendCollectionBackView.addSubview(dividendCollectionView)
+        
+        dividendCollectionView.snp.makeConstraints { make in
+            make.centerX.centerY.width.height.equalTo(dividendCollectionBackView)
+        }
     }
     func startAutoCarouselScroll() {
         //전체 cell 개수

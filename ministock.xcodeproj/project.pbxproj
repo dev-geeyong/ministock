@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		461B250D27D1D4B200AB27D9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 461B250C27D1D4B200AB27D9 /* SnapKit */; };
 		46955ACB27CC76A4002C4857 /* DividendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACA27CC76A4002C4857 /* DividendCollectionViewCell.swift */; };
 		46955ACE27CC871B002C4857 /* DividendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACD27CC871B002C4857 /* DividendViewModel.swift */; };
 		46955AD027CC8C80002C4857 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACF27CC8C80002C4857 /* Extension.swift */; };
@@ -62,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DB84854CE786467BACD0299 /* Pods_ministock.framework in Frameworks */,
+				461B250D27D1D4B200AB27D9 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +182,9 @@
 			dependencies = (
 			);
 			name = ministock;
+			packageProductDependencies = (
+				461B250C27D1D4B200AB27D9 /* SnapKit */,
+			);
 			productName = ministock;
 			productReference = 6ACD5F3F27BB24E900D74C1F /* ministock.app */;
 			productType = "com.apple.product-type.application";
@@ -208,6 +213,9 @@
 				Base,
 			);
 			mainGroup = 6ACD5F3627BB24E900D74C1F;
+			packageReferences = (
+				461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 6ACD5F4027BB24E900D74C1F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -514,6 +522,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		461B250C27D1D4B200AB27D9 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6ACD5F3727BB24E900D74C1F /* Project object */;
 }
