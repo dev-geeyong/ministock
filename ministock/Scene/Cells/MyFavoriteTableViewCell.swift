@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MyFavoriteTableViewCell: UITableViewCell{
     //MARK: - Propertie
@@ -128,4 +129,26 @@ class MyFavoriteTableViewCell: UITableViewCell{
     }
     //MARK: - Actions
     //MARK: - Helpers
+    var cellViewModel: Model? {
+            didSet {
+                guard let viewModel = cellViewModel else{return}
+                    
+            
+                let url = URL(string: viewModel.image)
+                stockImageView.kf.setImage(with: url)
+                stockNameLabel.text = viewModel.stockName
+                companyNameLabel.text = viewModel.stockName
+                currentPriceLabel.text = viewModel.price
+                percentChangeLabel.text = viewModel.percent
+            }
+        }
 }
+
+//                let url = URL(string: "\(self.apiData[indexPath.row].imageURL)")
+//                cell?.stockImageView.kf.setImage(with: url, placeholder: UIImage(named: "apple"))
+//                cell?.stockNameLabel.text = self.apiData[indexPath.row].stockName
+//                cell?.companyNameLabel.text = self.apiData[indexPath.row].stockName
+//                cell?.currentPriceLabel.text = "\(self.apiData[indexPath.row].currentPrice)".insertComma + "원"
+//
+//                let str = String(format: "%.2f", Double(self.apiData[indexPath.row].percentChange))
+//                cell?.percentChangeLabel.text = "+" + str + "%"

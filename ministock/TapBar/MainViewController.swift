@@ -12,7 +12,8 @@ import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
-    var apiData = [DividendElement](){
+    let service = Service()
+    var apiData = [Model](){
         didSet{
 
 //            self.dividendCollectionView.reloadData()
@@ -25,13 +26,11 @@ class MainViewController: UIViewController {
     private let scrollView: UIScrollView = {
        let sv = UIScrollView()
         sv.backgroundColor = .systemGray6
-        sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
     
     private let contentView: UIView = {
        let uv = UIView()
-        uv.translatesAutoresizingMaskIntoConstraints = false
         uv.backgroundColor = .systemGray6
         return uv
     }()
@@ -43,7 +42,6 @@ class MainViewController: UIViewController {
                                                 dividendStocksBackView,
                                                 exchangeRateBackView])
         sv.axis = .vertical
-        sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
     
@@ -59,28 +57,19 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AlamofireManager.shared.getData { result in
-            self.apiData = result
-        }
+        favoriteStockBackView.cellDelegate = self
+        stocksBackView.pushDelegate = self
+        stocksBackView.showDelegate = self
+        dividendStocksBackView.delegate = self
         initLayout()
         
     }
     //MARK: - Actions
-    @objc func btnActions(sender: UIButton){
-        print("->acc",sender)
-        let popUpViewController = PopUpViewController()
-        popUpViewController.modalPresentationStyle = .overFullScreen
-        present(popUpViewController, animated: false, completion: nil)
-    }
-    @objc func pushView(){
-        let nv = AccountViewController()
-        self.navigationController?.pushViewController(nv, animated: true)
-    }
+    
     //MARK: - Helpers
     
     func initLayout(){
     
-        //MARK: addsubView - scrollView
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.centerX.width.top.bottom.equalToSuperview()
@@ -95,5 +84,19 @@ class MainViewController: UIViewController {
         stackView.snp.makeConstraints { make in
             make.top.left.right.bottom.height.equalTo(contentView)
         }
+    }
+}
+
+extension MainViewController: PushNavgationDelegate{
+    func pushButtonTapped() {
+        let nv = AccountViewController()
+        self.navigationController?.pushViewController(nv, animated: true)
+    }
+}
+extension MainViewController: ShowBottomSheetDelegate{
+    func pushButtonTapped2() {
+        let popUpViewController = PopUpViewController()
+        popUpViewController.modalPresentationStyle = .overFullScreen
+        present(popUpViewController, animated: false, completion: nil)
     }
 }
