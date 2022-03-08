@@ -10,24 +10,22 @@ import SnapKit
 
 class DividendStocksBackView: UIView {
     //MARK: - Propertie
+    var delegate: ShowBottomSheetDelegate?
     private let dividendCollectionBackView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .clear
         uv.heightAnchor.constraint(equalToConstant: 160).isActive = true
-        uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
     private let dividendTitleLabel: UILabel = {
-       let lb = UILabel()
-        lb.translatesAutoresizingMaskIntoConstraints = false
+        let lb = UILabel()
         lb.text = "은행 이자 부럽지 않은 배당"
         lb.font = UIFont.systemFont(ofSize: 15)
         lb.textColor = .white
         return lb
     }()
     private let dividendSubTitleLabel: UILabel = {
-       let lb = UILabel()
-        lb.translatesAutoresizingMaskIntoConstraints = false
+        let lb = UILabel()
         lb.text = "지금 사면 배당받는 주식!"
         lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
@@ -42,28 +40,31 @@ class DividendStocksBackView: UIView {
         let image = UIImage(systemName: "questionmark.circle", withConfiguration: config)
         bt.setImage(image, for: .normal)
         bt.tintColor = .systemGray6
-        bt.translatesAutoresizingMaskIntoConstraints = false
         bt.semanticContentAttribute = .forceRightToLeft
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-//        bt.addTarget(self, action: #selector(btnActions), for: .touchUpInside)
+        bt.addTarget(self, action: #selector(btnActions), for: .touchUpInside)
         bt.contentHorizontalAlignment = .left;
         
         return bt
     }()
+    
     private let dividendCollectionView: UICollectionView = {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 0
         flowLayout.scrollDirection = .horizontal
-
+        
         let collectionView = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: flowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor.clear
         collectionView.clipsToBounds = true
         collectionView.layer.cornerRadius = 5
-        
+        collectionView.register(DividendCollectionViewCell.self, forCellWithReuseIdentifier: "DividendCollectionViewCell")
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
+    
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,11 +96,10 @@ class DividendStocksBackView: UIView {
             make.top.equalTo(dividendTitleLabel.snp.top)
             make.trailing.equalTo(self.snp.trailing).offset(-20)
         }
+        
         dividendCollectionView.dataSource = self
         dividendCollectionView.delegate = self
-        dividendCollectionView.register(DividendCollectionViewCell.self, forCellWithReuseIdentifier: "DividendCollectionViewCell")
-        dividendCollectionView.isPagingEnabled = true
-        dividendCollectionView.showsHorizontalScrollIndicator = false
+
         dividendCollectionBackView.addSubview(dividendCollectionView)
         
         dividendCollectionView.snp.makeConstraints { make in
@@ -111,9 +111,11 @@ class DividendStocksBackView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: - Actions
-    
+    @objc func btnActions(){
+        delegate?.pushButtonTapped2()
+    }
     //MARK: - Helpers
-
+    
 }
 extension DividendStocksBackView: UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -125,23 +127,17 @@ extension DividendStocksBackView: UICollectionViewDataSource,UICollectionViewDel
         cell.companyNameLabel.text = "test"
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        var width = 0.0
-        var height = 0.0
+        return CGSize.init(width: dividendCollectionBackView.frame.width / 3.0 + 10, height: collectionView.bounds.height)
         
-        
-            width = dividendCollectionBackView.frame.width / 3.0 + 10
-            height = collectionView.bounds.height
+    }
     
-        
-        return CGSize.init(width: width, height: height)
-    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        if collectionView == carouselCollectionView{return 0}
-        if collectionView == dividendCollectionView {return 5}
-        else{return 0}
+        return 5
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         0
     }

@@ -8,18 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		461B250D27D1D4B200AB27D9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 461B250C27D1D4B200AB27D9 /* SnapKit */; };
+		4669F3A027D70152004FCB8D /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669F39F27D70152004FCB8D /* Protocol.swift */; };
+		4669F3A227D7056D004FCB8D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669F3A127D7056D004FCB8D /* Model.swift */; };
 		46955ACB27CC76A4002C4857 /* DividendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACA27CC76A4002C4857 /* DividendCollectionViewCell.swift */; };
-		46955ACE27CC871B002C4857 /* DividendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACD27CC871B002C4857 /* DividendViewModel.swift */; };
+		46955ACE27CC871B002C4857 /* StocksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACD27CC871B002C4857 /* StocksViewModel.swift */; };
 		46955AD027CC8C80002C4857 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46955ACF27CC8C80002C4857 /* Extension.swift */; };
 		469B01CF27C48F3400E41784 /* CategoryCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B01CE27C48F3400E41784 /* CategoryCollectionCell.swift */; };
 		469B01D127C5C5B800E41784 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B01D027C5C5B800E41784 /* PopUpViewController.swift */; };
-		469B021227C7678D00E41784 /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B021127C7678D00E41784 /* AlamofireManager.swift */; };
-		469B021627C76AC500E41784 /* IncreaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B021527C76AC500E41784 /* IncreaseModel.swift */; };
+		469B021227C7678D00E41784 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B021127C7678D00E41784 /* Repository.swift */; };
+		469B021627C76AC500E41784 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469B021527C76AC500E41784 /* Entity.swift */; };
 		46B4714B27D59AA9000E1AE0 /* CarouselBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4714A27D59AA9000E1AE0 /* CarouselBackView.swift */; };
 		46B4714D27D5B2B0000E1AE0 /* FavoriteStockBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4714C27D5B2B0000E1AE0 /* FavoriteStockBackView.swift */; };
 		46B4714F27D5BA71000E1AE0 /* StocksBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4714E27D5BA71000E1AE0 /* StocksBackView.swift */; };
 		46B4716227D6D753000E1AE0 /* DividendStocksBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4716127D6D753000E1AE0 /* DividendStocksBackView.swift */; };
 		46B4716427D6D959000E1AE0 /* ExchangeRateBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4716327D6D959000E1AE0 /* ExchangeRateBackView.swift */; };
+		46B4716727D6DF96000E1AE0 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4716627D6DF96000E1AE0 /* Service.swift */; };
 		6AAD302327C3198100228673 /* MainTapBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302227C3198100228673 /* MainTapBarController.swift */; };
 		6AAD302527C31ACA00228673 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302427C31ACA00228673 /* SearchViewController.swift */; };
 		6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302627C31B1700228673 /* ThemesViewController.swift */; };
@@ -36,18 +39,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4669F39F27D70152004FCB8D /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		4669F3A127D7056D004FCB8D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		46955ACA27CC76A4002C4857 /* DividendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividendCollectionViewCell.swift; sourceTree = "<group>"; };
-		46955ACD27CC871B002C4857 /* DividendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividendViewModel.swift; sourceTree = "<group>"; };
+		46955ACD27CC871B002C4857 /* StocksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewModel.swift; sourceTree = "<group>"; };
 		46955ACF27CC8C80002C4857 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		469B01CE27C48F3400E41784 /* CategoryCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionCell.swift; sourceTree = "<group>"; };
 		469B01D027C5C5B800E41784 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
-		469B021127C7678D00E41784 /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
-		469B021527C76AC500E41784 /* IncreaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreaseModel.swift; sourceTree = "<group>"; };
+		469B021127C7678D00E41784 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		469B021527C76AC500E41784 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		46B4714A27D59AA9000E1AE0 /* CarouselBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselBackView.swift; sourceTree = "<group>"; };
 		46B4714C27D5B2B0000E1AE0 /* FavoriteStockBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStockBackView.swift; sourceTree = "<group>"; };
 		46B4714E27D5BA71000E1AE0 /* StocksBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksBackView.swift; sourceTree = "<group>"; };
 		46B4716127D6D753000E1AE0 /* DividendStocksBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividendStocksBackView.swift; sourceTree = "<group>"; };
 		46B4716327D6D959000E1AE0 /* ExchangeRateBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateBackView.swift; sourceTree = "<group>"; };
+		46B4716627D6DF96000E1AE0 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		5FA2412691C0FCA581C27425 /* Pods-ministock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ministock.release.xcconfig"; path = "Target Support Files/Pods-ministock/Pods-ministock.release.xcconfig"; sourceTree = "<group>"; };
 		6AAD302227C3198100228673 /* MainTapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarController.swift; sourceTree = "<group>"; };
 		6AAD302427C31ACA00228673 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -83,12 +89,12 @@
 		46955ACC27CC870B002C4857 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				46955ACD27CC871B002C4857 /* DividendViewModel.swift */,
+				46955ACD27CC871B002C4857 /* StocksViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		46955AD127CC92B6002C4857 /* View */ = {
+		46955AD127CC92B6002C4857 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
 				469B01D027C5C5B800E41784 /* PopUpViewController.swift */,
@@ -99,23 +105,7 @@
 				46B4716327D6D959000E1AE0 /* ExchangeRateBackView.swift */,
 				46B4716527D6DCE8000E1AE0 /* Cells */,
 			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		469B021027C7677F00E41784 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				469B021127C7678D00E41784 /* AlamofireManager.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
-		469B021427C76AA800E41784 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				469B021527C76AC500E41784 /* IncreaseModel.swift */,
-			);
-			path = Model;
+			path = Scene;
 			sourceTree = "<group>";
 		};
 		46B4714927D59975000E1AE0 /* TapBar */ = {
@@ -164,11 +154,14 @@
 			children = (
 				6ACD5F4227BB24E900D74C1F /* AppDelegate.swift */,
 				6ACD5F4427BB24E900D74C1F /* SceneDelegate.swift */,
+				4669F39F27D70152004FCB8D /* Protocol.swift */,
 				46B4714927D59975000E1AE0 /* TapBar */,
-				46955AD127CC92B6002C4857 /* View */,
+				46955AD127CC92B6002C4857 /* Scene */,
 				46955ACC27CC870B002C4857 /* ViewModel */,
-				469B021427C76AA800E41784 /* Model */,
-				469B021027C7677F00E41784 /* API */,
+				469B021127C7678D00E41784 /* Repository.swift */,
+				469B021527C76AC500E41784 /* Entity.swift */,
+				46B4716627D6DF96000E1AE0 /* Service.swift */,
+				4669F3A127D7056D004FCB8D /* Model.swift */,
 				46955ACF27CC8C80002C4857 /* Extension.swift */,
 				6ACD5F4827BB24E900D74C1F /* Main.storyboard */,
 				6ACD5F4B27BB24EB00D74C1F /* Assets.xcassets */,
@@ -322,19 +315,22 @@
 				6ACD5F4727BB24E900D74C1F /* MainViewController.swift in Sources */,
 				6AAD302927C31B3B00228673 /* AccountViewController.swift in Sources */,
 				469B01D127C5C5B800E41784 /* PopUpViewController.swift in Sources */,
-				469B021627C76AC500E41784 /* IncreaseModel.swift in Sources */,
-				469B021227C7678D00E41784 /* AlamofireManager.swift in Sources */,
+				4669F3A027D70152004FCB8D /* Protocol.swift in Sources */,
+				469B021627C76AC500E41784 /* Entity.swift in Sources */,
+				469B021227C7678D00E41784 /* Repository.swift in Sources */,
 				6AAD302B27C31B5500228673 /* SettingViewController.swift in Sources */,
 				46955AD027CC8C80002C4857 /* Extension.swift in Sources */,
 				6ACD5F4327BB24E900D74C1F /* AppDelegate.swift in Sources */,
-				46955ACE27CC871B002C4857 /* DividendViewModel.swift in Sources */,
+				46955ACE27CC871B002C4857 /* StocksViewModel.swift in Sources */,
 				469B01CF27C48F3400E41784 /* CategoryCollectionCell.swift in Sources */,
 				46B4714B27D59AA9000E1AE0 /* CarouselBackView.swift in Sources */,
+				4669F3A227D7056D004FCB8D /* Model.swift in Sources */,
 				46B4714D27D5B2B0000E1AE0 /* FavoriteStockBackView.swift in Sources */,
 				6ACD5F4527BB24E900D74C1F /* SceneDelegate.swift in Sources */,
 				46955ACB27CC76A4002C4857 /* DividendCollectionViewCell.swift in Sources */,
 				6AAD302D27C3609C00228673 /* MyFavoriteTableViewCell.swift in Sources */,
 				6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */,
+				46B4716727D6DF96000E1AE0 /* Service.swift in Sources */,
 				46B4714F27D5BA71000E1AE0 /* StocksBackView.swift in Sources */,
 				6AAD302327C3198100228673 /* MainTapBarController.swift in Sources */,
 			);

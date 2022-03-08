@@ -19,6 +19,9 @@ class CarouselBackView: UIView {
         let collectionView = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: flowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor.white
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "carouselCollectionView")
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
         
         return collectionView
     }()
@@ -32,10 +35,7 @@ class CarouselBackView: UIView {
         
         carouselCollectionView.dataSource = self
         carouselCollectionView.delegate = self
-        carouselCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "carouselCollectionView")
-        carouselCollectionView.showsHorizontalScrollIndicator = false
-        carouselCollectionView.isPagingEnabled = true
-        
+
         self.addSubview(carouselCollectionView)
     
         carouselCollectionView.snp.makeConstraints { make in
@@ -48,7 +48,6 @@ class CarouselBackView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: - Actions
-    
     //MARK: - Helpers
     func startAutoCarouselScroll() {
         //전체 cell 개수
@@ -78,22 +77,24 @@ class CarouselBackView: UIView {
     }
 }
 extension CarouselBackView: UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate ,UIScrollViewDelegate{
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let page = Int(floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1)
         self.currentIdx = page
-        
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "carouselCollectionView", for: indexPath)
         return cell
         
     }
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if collectionView == carouselCollectionView{
             
@@ -114,11 +115,12 @@ extension CarouselBackView: UICollectionViewDataSource,UICollectionViewDelegateF
             }
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize.init(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
-    
 }

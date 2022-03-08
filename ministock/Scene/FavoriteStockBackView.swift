@@ -8,23 +8,27 @@
 import UIKit
 import SnapKit
 
+
+
 class FavoriteStockBackView: UIView {
+    
     //MARK: - Propertie
-    let favoriteInView: UIView = {
+    var cellDelegate: PushNavgationDelegate?
+    
+    private let favoriteInView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .white
-        uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
+    
     private let favoriteTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "관심 주식"
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     private lazy var addFavoriteStockBtn: UIButton = {
-        let bt = UIButton(type: .system)
+        let bt = UIButton()
         bt.setTitle("관심 주식 담기 및 관리", for: .normal)
         bt.setTitleColor(UIColor.black, for: .normal)
         bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -33,11 +37,18 @@ class FavoriteStockBackView: UIView {
         bt.layer.cornerRadius = 5
         bt.layer.borderColor = UIColor.systemGray4.cgColor
         bt.layer.borderWidth = 1
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        //        bt.addTarget(self, action: #selector(MainViewController.pushView), for: .touchUpInside)
+        bt.addTarget(self, action: #selector(pushView1), for: .touchUpInside)
         return bt
     }()
-    private let favoriteStockTableView = UITableView(frame: .zero, style: .plain)
+    
+    private let favoriteStockTableView: UITableView = {
+        let tv = UITableView()
+        tv.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
+        tv.rowHeight = 60
+        tv.separatorStyle = .none
+        tv.allowsSelection = false
+        return tv
+    }()
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,28 +56,21 @@ class FavoriteStockBackView: UIView {
         self.heightAnchor.constraint(equalToConstant: 220).isActive = true
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        favoriteStockTableView.delegate = self
+        favoriteStockTableView.dataSource = self
+        
         self.addSubview(favoriteInView)
         favoriteInView.snp.makeConstraints { make in
             make.top.equalTo(self).offset(10)
             make.left.right.equalTo(self)
             make.bottom.equalTo(self).offset(-10)
         }
+        
         favoriteInView.addSubview(favoriteTitleLabel)
         favoriteTitleLabel.snp.makeConstraints { make in
             make.top.left.equalTo(favoriteInView).offset(15)
         }
-        favoriteInView.addSubview(addFavoriteStockBtn)
-        addFavoriteStockBtn.snp.makeConstraints { make in
-            make.left.equalTo(favoriteTitleLabel)
-            make.bottom.equalTo(favoriteInView).offset(-15)
-            make.right.equalTo(favoriteInView).offset(-10)
-        }
-        favoriteStockTableView.register(MyFavoriteTableViewCell.self, forCellReuseIdentifier: "MyFavoriteTableViewCell")
-        favoriteStockTableView.delegate = self
-        favoriteStockTableView.dataSource = self
-        favoriteStockTableView.translatesAutoresizingMaskIntoConstraints = false
-        favoriteStockTableView.rowHeight = 60
-        favoriteStockTableView.separatorStyle = .none
+        
         favoriteInView.addSubview(favoriteStockTableView)
         favoriteStockTableView.snp.makeConstraints { make in
             make.top.equalTo(favoriteTitleLabel.snp.bottom).offset(15)
@@ -75,7 +79,13 @@ class FavoriteStockBackView: UIView {
             make.height.equalTo(60)
             
         }
-        favoriteStockTableView.allowsSelection = false
+        
+        favoriteInView.addSubview(addFavoriteStockBtn)
+        addFavoriteStockBtn.snp.makeConstraints { make in
+            make.bottom.equalTo(favoriteInView.snp.bottom).offset(-15)
+            make.leading.equalTo(favoriteInView.snp.leading).offset(15)
+            make.trailing.equalTo(favoriteInView.snp.trailing).offset(-15)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -83,8 +93,13 @@ class FavoriteStockBackView: UIView {
     }
     
     //MARK: - Actions
-    @objc func pushView(){
-        
+    @objc func buttonTapped(sender : UIButton) {
+        // code here
+        print("->test")
+    }
+    @objc func pushView1(){
+        print("->test")
+        cellDelegate?.pushButtonTapped()
     }
     //MARK: - Helpers
 }

@@ -9,11 +9,11 @@ import UIKit
 import Kingfisher
 class DividendCollectionViewCell: UICollectionViewCell{
     
-    var viewModel: DividendViewModel?{
-        didSet{
-            configure()
-        }
-    }
+//    var viewModel: DividendViewModel?{
+//        didSet{
+////            configure()
+//        }
+//    }
     let stockImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -91,15 +91,15 @@ class DividendCollectionViewCell: UICollectionViewCell{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(){
-        guard let viewModel = viewModel else {return}
-   
-        if let image = viewModel.image{
-            stockImageView.kf.setImage(with: image)
-        }
-        companyNameLabel.text = viewModel.name
-        percentChangeLabel.text = viewModel.percent
-        currentPriceLabel.text = viewModel.price
-        exDividendDate.text = viewModel.date
-    }
+//    func configure(){
+//        guard let viewModel = viewModel else {return}
+//
+//        if let image = viewModel.image{
+//            stockImageView.kf.setImage(with: image)
+//        }
+//        companyNameLabel.text = viewModel.name
+//        percentChangeLabel.text = viewModel.percent
+//        currentPriceLabel.text = viewModel.price
+//        exDividendDate.text = viewModel.date
+//    }
 }

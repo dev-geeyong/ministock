@@ -2,7 +2,7 @@ import UIKit
 
 final class PopUpViewController: UIViewController{
     
-    lazy var containerView: UIView = {
+    private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
@@ -10,18 +10,20 @@ final class PopUpViewController: UIViewController{
         return view
     }()
     
-    lazy var dimmedView: UIView = {
+    private let dimmedView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         view.alpha = 0.6
         return view
     }()
+    
     private let titleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "최근 기간별"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
+    
     private let collectionBackView: UIView = {
         let uv = UIView()
         uv.layer.cornerRadius = 5
@@ -29,7 +31,8 @@ final class PopUpViewController: UIViewController{
         uv.layer.borderWidth = 1
         return uv
     }()
-    let collectionView: UICollectionView = {
+    
+    private let collectionView: UICollectionView = {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 0
@@ -98,7 +101,6 @@ final class PopUpViewController: UIViewController{
         containerView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 300)
         
-        
         containerViewBottomConstraint?.isActive = true
         
         containerView.addSubview(collectionBackView)
@@ -156,5 +158,4 @@ extension PopUpViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
-    //"전일","1개월","3개월","6개월","1년","3년"
 }
