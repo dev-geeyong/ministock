@@ -29,16 +29,19 @@ class CarouselBackView: UIView {
         self.backgroundColor = .red
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
         carouselCollectionView.dataSource = self
         carouselCollectionView.delegate = self
         carouselCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "carouselCollectionView")
         carouselCollectionView.showsHorizontalScrollIndicator = false
         carouselCollectionView.isPagingEnabled = true
-        self.addSubview(carouselCollectionView)
         
+        self.addSubview(carouselCollectionView)
+    
         carouselCollectionView.snp.makeConstraints { make in
             make.centerX.centerY.width.height.equalTo(self)
         }
+        startAutoCarouselScroll()
     }
     
     required init?(coder: NSCoder) {
@@ -53,7 +56,6 @@ class CarouselBackView: UIView {
             .numberOfItems(inSection: 0)
         
         DispatchQueue.global(qos: .default).async {
-            
             while true
             {
                 //2초에 한 번씩 paging
@@ -88,8 +90,8 @@ extension CarouselBackView: UICollectionViewDataSource,UICollectionViewDelegateF
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "carouselCollectionView", for: indexPath)
-            return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "carouselCollectionView", for: indexPath)
+        return cell
         
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
