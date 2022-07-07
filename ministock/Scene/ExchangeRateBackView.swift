@@ -67,7 +67,6 @@ class ExchangeRateBackView: UIView{
             $0.leading.equalTo(exchangeRateInView).offset(25)
         }
         
-        
         exchangeRateDateLabel.snp.makeConstraints { make in
             make.top.equalTo(exchangeRateLabel.snp.bottom)
             make.leading.equalTo(exchangeRateLabel)

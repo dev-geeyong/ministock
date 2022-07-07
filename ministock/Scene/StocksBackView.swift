@@ -161,7 +161,6 @@ class StocksBackView: UIView{
             make.right.equalTo(stocksCategoryView.snp.right)
         }
 
-
         stocksCategoryFilterView.snp.makeConstraints { make in
             make.top.equalTo(stocksCategoryUnderLineView.snp.bottom)
             make.leading.trailing.equalTo(stocksCategoryUnderLineView)
