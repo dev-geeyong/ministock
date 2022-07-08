@@ -139,7 +139,7 @@ class MyFavoriteTableViewCell: UITableViewCell{
                 stockNameLabel.text = viewModel.name
                 companyNameLabel.text = viewModel.name
 //                companyNameLabel.text = viewModel.stockName
-                currentPriceLabel.text = viewModel.account
+                currentPriceLabel.text = viewModel.priceComma
                 percentChangeLabel.text = viewModel.ShowReturn
                 percentChangeLabel.textColor = viewModel.redOrBlue
             }

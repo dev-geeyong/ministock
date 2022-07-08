@@ -10,6 +10,7 @@ import UIKit
 struct Model{
     var account: String
     var returnPer: String
+    var price: String
     var name: String
 }
 
@@ -27,11 +28,13 @@ struct Stock: Decodable{
     let account: String
     let returnPer: String
     let name: String
+    let price: String
     
     enum CodingKeys: String, CodingKey {
         case account = "cano"
         case name = "ovrs_item_name"
         case returnPer = "evlu_pfls_rt"
+        case price = "now_pric2"
     }
 }
 
@@ -45,6 +48,9 @@ extension Model: Displayable{
     }
     var ShowReturn: String{
         "\(returnPer)%"
+    }
+    var priceComma: String{
+        "$\(Double(price)!)"
     }
     
 }
