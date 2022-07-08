@@ -18,10 +18,12 @@ struct Model{
 
 struct Stocks: Decodable {
 //    let msg: String
-    let output1: [Stock]
+    let output: [Stock]
     
+    enum CodingKeys: String, CodingKey{
+        case output = "output1"
+    }
 }
-
 
 struct Stock: Decodable{
     
@@ -38,19 +40,14 @@ struct Stock: Decodable{
     }
 }
 
-extension Model: Displayable{
-    
-//    var ShowName: String{
-//        "종목명 : \(name)"
-//    }
-    var redOrBlue: UIColor {
+extension Model{
+    var setColor: UIColor {
         returnPer.first == "-" ? .blue : .red
     }
-    var ShowReturn: String{
+    var setReturn: String{
         "\(returnPer)%"
     }
-    var priceComma: String{
+    var setPrice: String{
         "$\(Double(price)!)"
     }
-    
 }

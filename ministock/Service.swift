@@ -15,8 +15,8 @@ class Service {
         
         var models = [Model]()
         repository.APIRequest { entities in
-            print(entities.output1.count)
-            entities.output1.forEach {
+            
+            entities.output.forEach {
                 let model = Model(account: $0.account, returnPer: $0.returnPer, price: $0.price, name: $0.name)
                 models.append(model)
             }
