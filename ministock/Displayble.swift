@@ -7,6 +7,7 @@
 
 
 protocol Displayable {
-    var ShowName: String { get }
-    var ShowPrice: String { get }
+//    var ShowName: String { get }
+//    var ShowPrice: String { get }
+    var ShowReturn: String { get }
 }

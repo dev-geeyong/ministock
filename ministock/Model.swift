@@ -8,11 +8,9 @@
 import UIKit
 
 struct Model{
-    var stockName: String
-    var subStockName: String
-    var percent: String
-    var price: String
-    var image: String
+    var account: String
+    var returnPer: String
+    var name: String
 }
 
 //해외주식 잔고
@@ -27,23 +25,26 @@ struct Stocks: Decodable {
 struct Stock: Decodable{
     
     let account: String
-    let price: String
+    let returnPer: String
     let name: String
     
     enum CodingKeys: String, CodingKey {
         case account = "cano"
         case name = "ovrs_item_name"
-        case price = "evlu_pfls_rt"
+        case returnPer = "evlu_pfls_rt"
     }
 }
 
-extension Stock: Displayable{
+extension Model: Displayable{
     
-    var ShowName: String{
-        "종목명 : \(name)"
+//    var ShowName: String{
+//        "종목명 : \(name)"
+//    }
+    var redOrBlue: UIColor {
+        returnPer.first == "-" ? .blue : .red
     }
-    var ShowPrice: String{
-        "\(price)원"
+    var ShowReturn: String{
+        "\(returnPer)%"
     }
     
 }

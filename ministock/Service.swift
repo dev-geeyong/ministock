@@ -12,16 +12,13 @@ class Service {
     let repository = Repository()
     
     func entityToModel(completion: @escaping ([Model])->Void){
+        
         var models = [Model]()
         repository.APIRequest { entities in
-            
-            for entity in entities{
-                let currentPrice = "\(entity.currentPrice)".insertComma + "원"
-                let percentChange = "+" + String(format: "%.2f", Double(entity.percentChange)) + "%"
-                print(entity)
-                let model = Model(stockName: entity.stockName, subStockName: entity.stockName, percent: percentChange, price: currentPrice, image: entity.imageURL)
+            print(entities.output1.count)
+            entities.output1.forEach {
+                let model = Model(account: $0.account, returnPer: $0.returnPer, name: $0.name)
                 models.append(model)
-                
             }
             completion(models)
         }

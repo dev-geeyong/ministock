@@ -134,12 +134,14 @@ class MyFavoriteTableViewCell: UITableViewCell{
                 guard let viewModel = cellViewModel else{return}
                     
             
-                let url = URL(string: viewModel.image)
-                stockImageView.kf.setImage(with: url)
-                stockNameLabel.text = viewModel.stockName
-                companyNameLabel.text = viewModel.stockName
-                currentPriceLabel.text = viewModel.price
-                percentChangeLabel.text = viewModel.percent
+//                let url = URL(string: viewModel.image)
+//                stockImageView.kf.setImage(with: url)
+                stockNameLabel.text = viewModel.name
+                companyNameLabel.text = viewModel.name
+//                companyNameLabel.text = viewModel.stockName
+                currentPriceLabel.text = viewModel.account
+                percentChangeLabel.text = viewModel.ShowReturn
+                percentChangeLabel.textColor = viewModel.redOrBlue
             }
         }
 }
