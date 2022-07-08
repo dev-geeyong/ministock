@@ -13,7 +13,7 @@ class StocksBackView: UIView{
     var pushDelegate: PushNavgationDelegate?
     var showDelegate: ShowBottomSheetDelegate?
     lazy var viewModel = { StocksViewModel() }()
-    private let stocks: [StocksViewModel] = []
+    
     private let category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
     
     private let stocksCategoryView: UIView = {
@@ -161,7 +161,6 @@ class StocksBackView: UIView{
             make.right.equalTo(stocksCategoryView.snp.right)
         }
 
-
         stocksCategoryFilterView.snp.makeConstraints { make in
             make.top.equalTo(stocksCategoryUnderLineView.snp.bottom)
             make.leading.trailing.equalTo(stocksCategoryUnderLineView)
@@ -231,12 +230,12 @@ class StocksBackView: UIView{
     }
     //MARK: - Helpers
     func initViewModel() {
-          viewModel.getStocks()
-          viewModel.reloadTableView = { [weak self] in
-              DispatchQueue.main.async {
-                  self?.stocksTableView.reloadData()
-              }
-          }
+//          viewModel.getStocks()
+//          viewModel.reloadTableView = { [weak self] in
+//              DispatchQueue.main.async {
+//                  self?.stocksTableView.reloadData()
+//              }
+//          }
       }
 }
 extension StocksBackView : UITableViewDelegate, UITableViewDataSource{

@@ -12,6 +12,7 @@ import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
+    
     let service = Service()
     var apiData = [Model](){
         didSet{
@@ -61,8 +62,8 @@ class MainViewController: UIViewController {
         stocksBackView.pushDelegate = self
         stocksBackView.showDelegate = self
         dividendStocksBackView.delegate = self
-        initLayout()
         
+        initLayout()
     }
     //MARK: - Actions
     

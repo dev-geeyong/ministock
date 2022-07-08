@@ -18,6 +18,7 @@ class StocksViewModel{
     }
     func getStocks(){
         service.entityToModel { [weak self] model in
+            
             self?.stocksModel = model
         }
     }
