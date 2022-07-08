@@ -65,8 +65,12 @@ class MainViewController: UIViewController {
         
         initLayout()
         let pa = [
-            "FID_COND_MRKT_DIV_CODE" : "J",
-            "FID_INPUT_ISCD":"000680"
+            "CANO" : "63221397",
+            "ACNT_PRDT_CD":"01",
+            "OVRS_EXCG_CD": "NASD",
+            "TR_CRCY_CD": "USD",
+            "CTX_AREA_FK200": "",
+            "CTX_AREA_NK200": ""
         ]
         
         
@@ -74,20 +78,23 @@ class MainViewController: UIViewController {
             "authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6ImQ3M2MxMWY4LTA0MTgtNGQxZS05ZDE2LTQzMGI0OTQ4NGNhMyIsImlzcyI6InVub2d3IiwiZXhwIjoxNjU3MjUzNjYzLCJpYXQiOjE2NTcxNjcyNjMsImp0aSI6IlBTUHVEUWVJSDFWeXF1OFBNQWlVeUlGd0RnbXY3U0ExY3JEVyJ9.MAc6v6NbeUeKwgMyMne2O6QBonPvHxnAHrP9SeoiizzIbp0awhsitHkrCobL7xfZZkBRt8ZRsM1kQpE69b1OaA",
             "appkey" : "PSPuDQeIH1Vyqu8PMAiUyIFwDgmv7SA1crDW",
             "appsecret" : "R3UR7aLSAAg9ZGx22O8TtKZY7KVt1FR7VgMyib/rKSDsz9y1GJVtJ0HrYm8xRh/4wHrvhsBAj1suFIChvRxmQyTodLy6+owD3peSpY4fqtqpJ+gtmdJbg8yQ/WZ6I1bu+KpRL6C+Mmz7gB2g9lcTvXjj5/FnE3wAZWXJGAe8QnnD2WTYAhw=",
-            "tr_id" : "FHKST01010100",
+            "tr_id" : "JTTT3012R",
             "Content-Type":"application/json"
         ]
 
-        AF.request("https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/inquire-price", method: .get, parameters: pa, encoding: URLEncoding.default, headers: headers).responseDecodable(of: Stocks.self){ response in
-            switch response.result {
-            case .success(let test):
-                print("->",test.output.ShowName, test.output.ShowPrice)
-            case .failure(let error):
-                print(error)
-            default:
-                return
-            }
+        AF.request("https://openapi.koreainvestment.com:9443/uapi/overseas-stock/v1/trading/inquire-balance", method: .get, parameters: pa, encoding: URLEncoding.default, headers: headers).responseJSON{ response in
+            
+            print("->",response)
         }
+//            switch response.result {
+//            case .success(let test):
+//                print("->",test.output.ShowName, test.output.ShowPrice)
+//            case .failure(let error):
+//                print(error)
+//            default:
+//                return
+//            }
+        
         
     }
     //MARK: - Actions
@@ -124,20 +131,5 @@ extension MainViewController: ShowBottomSheetDelegate{
         let popUpViewController = PopUpViewController()
         popUpViewController.modalPresentationStyle = .overFullScreen
         present(popUpViewController, animated: false, completion: nil)
-    }
-}
-
-
-struct ResponseMode: Decodable {
-    let output: StockPriceModel
-}
-
-struct StockPriceModel: Decodable {
-    let name: String
-    let price: String
-    
-    enum CodingKeys: String, CodingKey {
-        case price = "stck_prpr"
-        case name = "bstp_kor_isnm"
     }
 }

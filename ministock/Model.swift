@@ -15,21 +15,25 @@ struct Model{
     var image: String
 }
 
+//해외주식 잔고
+
 struct Stocks: Decodable {
 //    let msg: String
-    let output: Stock
+    let output1: [Stock]
     
 }
 
 
 struct Stock: Decodable{
     
-    let name: String
+    let account: String
     let price: String
+    let name: String
     
     enum CodingKeys: String, CodingKey {
-        case name = "bstp_kor_isnm"
-        case price = "stck_prpr"
+        case account = "cano"
+        case name = "ovrs_item_name"
+        case price = "evlu_pfls_rt"
     }
 }
 
