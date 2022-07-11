@@ -10,26 +10,26 @@ import SnapKit
 
 class ExchangeRateBackView: UIView{
     //MARK: - Propertie
-    private let exchangeRateInView: UIView = {
+    private lazy var exchangeRateInView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .white
         uv.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return uv
     }()
-    private let exchangeRateLabel: UILabel = {
+    private lazy var exchangeRateLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.systemFont(ofSize: 18)
         lb.text = "원달러 환율"
         return lb
     }()
-    private let exchangeRateDateLabel: UILabel = {
+    private lazy var exchangeRateDateLabel: UILabel = {
         let lb = UILabel()
         lb.text = "2월 22일 최초고시환율"
         lb.font = UIFont.systemFont(ofSize: 12)
         lb.textColor = .systemGray
         return lb
     }()
-    private let currentExchangeRateLabel: UILabel = {
+    private lazy var currentExchangeRateLabel: UILabel = {
         let lb = UILabel()
         lb.text = "1,194.60원"
         lb.font = UIFont.systemFont(ofSize: 18)
@@ -37,7 +37,7 @@ class ExchangeRateBackView: UIView{
         lb.textAlignment = .right
         return lb
     }()
-    private let percentChangeLabel: UILabel = {
+    private lazy var percentChangeLabel: UILabel = {
         let lb = UILabel()
         lb.text = "+1.18%"
         lb.font = UIFont.systemFont(ofSize: 15)
@@ -48,39 +48,7 @@ class ExchangeRateBackView: UIView{
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .systemGray6
-        self.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.translatesAutoresizingMaskIntoConstraints = false
-    
-        self.addSubview(exchangeRateInView)
-        exchangeRateInView.snp.makeConstraints { make in
-            make.top.equalTo(self.snp.top).offset(15)
-            make.leading.trailing.equalTo(self)
-        }
-        [exchangeRateLabel,exchangeRateDateLabel,
-         currentExchangeRateLabel,percentChangeLabel].forEach {
-            exchangeRateInView.addSubview($0)
-        }
-        
-        exchangeRateLabel.snp.makeConstraints {
-            $0.centerY.equalTo(exchangeRateInView).offset(-10)
-            $0.leading.equalTo(exchangeRateInView).offset(25)
-        }
-        
-        exchangeRateDateLabel.snp.makeConstraints { make in
-            make.top.equalTo(exchangeRateLabel.snp.bottom)
-            make.leading.equalTo(exchangeRateLabel)
-        }
-        
-        currentExchangeRateLabel.snp.makeConstraints { make in
-            make.top.equalTo(exchangeRateLabel)
-            make.trailing.equalTo(exchangeRateInView.snp.trailing).offset(-25)
-        }
-        
-        percentChangeLabel.snp.makeConstraints { make in
-            make.top.equalTo(currentExchangeRateLabel.snp.bottom)
-            make.trailing.equalTo(currentExchangeRateLabel.snp.trailing)
-        }
+        initLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -88,6 +56,41 @@ class ExchangeRateBackView: UIView{
     }
     
     //MARK: - Actions
-    
     //MARK: - Helpers
+    func initLayout(){
+        self.backgroundColor = .systemGray6
+        self.snp.makeConstraints {
+            $0.height.equalTo(200)
+        }
+        self.addSubview(exchangeRateInView)
+        exchangeRateInView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(15)
+            $0.leading.trailing.equalToSuperview()
+        }
+        [
+            exchangeRateLabel,
+            exchangeRateDateLabel,
+            currentExchangeRateLabel,
+            percentChangeLabel
+        ]
+            .forEach {
+                exchangeRateInView.addSubview($0)
+            }
+        exchangeRateLabel.snp.makeConstraints {
+            $0.centerY.equalTo(exchangeRateInView).offset(-10)
+            $0.leading.equalTo(exchangeRateInView).offset(25)
+        }
+        exchangeRateDateLabel.snp.makeConstraints {
+            $0.top.equalTo(exchangeRateLabel.snp.bottom)
+            $0.leading.equalTo(exchangeRateLabel)
+        }
+        currentExchangeRateLabel.snp.makeConstraints {
+            $0.top.equalTo(exchangeRateLabel)
+            $0.trailing.equalTo(exchangeRateInView.snp.trailing).offset(-25)
+        }
+        percentChangeLabel.snp.makeConstraints {
+            $0.top.equalTo(currentExchangeRateLabel.snp.bottom)
+            $0.trailing.equalTo(currentExchangeRateLabel.snp.trailing)
+        }
+    }
 }
