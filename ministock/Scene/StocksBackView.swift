@@ -279,7 +279,7 @@ extension StocksBackView: UICollectionViewDataSource,UICollectionViewDelegateFlo
                     self.stocksCategoryFilterBtn.setTitle("시가 총액 ", for: .normal)
                     self.stocksEtfBtn.isHidden = true
                 default:
-                    print("")
+                    return
                 }
                 if indexPath.row == 5 {
                     let rect = self.categoryCollectionView.layoutAttributesForItem(at: IndexPath(row: 5, section: 0))?.frame
