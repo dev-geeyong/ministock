@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StocksViewModel{
+class StocksViewModel {
     let service = Service()
     
     var reloadTableView: () -> Void = {}
@@ -18,13 +18,15 @@ class StocksViewModel{
     }
     func getStocks(){
         service.entityToModel { [weak self] model in
-            
             self?.stocksModel = model
         }
     }
     func getCellViewModel(at indexPath: IndexPath) -> Model {
-        
         return stocksModel[indexPath.row]
     }
-    
 }
+
+
+
+
+

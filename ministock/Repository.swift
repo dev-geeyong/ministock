@@ -3,8 +3,6 @@ import Alamofire
 
 
 class Repository {
-
-    
     static let shared = Repository()
     let keys = KeyValues()
     let url = "https://openapi.koreainvestment.com:9443/uapi/overseas-stock/v1/trading/inquire-balance"

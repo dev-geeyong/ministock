@@ -10,7 +10,17 @@ import Kingfisher
 
 class MyFavoriteTableViewCell: UITableViewCell{
     //MARK: - Propertie
-    let stockImageView: UIImageView = {
+    var cellViewModel: Model? {
+        didSet {
+            guard let viewModel = cellViewModel else{return}
+            companyNameLabel.text = viewModel.name
+            stockNameLabel.text = viewModel.code
+            currentPriceLabel.text = viewModel.setPrice
+            percentChangeLabel.text = viewModel.setReturn
+            percentChangeLabel.textColor = viewModel.setColor
+        }
+    }
+    private lazy var stockImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
@@ -18,28 +28,30 @@ class MyFavoriteTableViewCell: UITableViewCell{
         iv.layer.borderWidth = 1
         iv.layer.borderColor = UIColor.systemGray4.cgColor
         iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        iv.widthAnchor.constraint(equalToConstant: 42).isActive = true
+        iv.layer.cornerRadius = 42 / 2
         return iv
     }()
-    private let leftView: UIView = {
+    private lazy var leftView: UIView = {
        let uv = UIView()
         uv.translatesAutoresizingMaskIntoConstraints = false
         uv.backgroundColor = .white
         return uv
     }()
-    
-    private let rightView: UIView = {
+    private lazy var rightView: UIView = {
        let uv = UIView()
         uv.translatesAutoresizingMaskIntoConstraints = false
         uv.backgroundColor = .white
         return uv
     }()
-    let companyNameLabel: UILabel = {
+    private lazy var companyNameLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.systemFont(ofSize: 18)
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    let stockNameLabel: UILabel = {
+    private lazy var stockNameLabel: UILabel = {
         let lb = UILabel()
         lb.text = "TSLA"
         lb.font = UIFont.systemFont(ofSize: 12)
@@ -47,7 +59,7 @@ class MyFavoriteTableViewCell: UITableViewCell{
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    let currentPriceLabel: UILabel = {
+    private lazy var currentPriceLabel: UILabel = {
         let lb = UILabel()
         lb.text = "17,877원"
         lb.font = UIFont.systemFont(ofSize: 15)
@@ -56,7 +68,7 @@ class MyFavoriteTableViewCell: UITableViewCell{
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    let percentChangeLabel: UILabel = {
+    private lazy var percentChangeLabel: UILabel = {
         let lb = UILabel()
         lb.text = "+18.88%"
         lb.font = UIFont.systemFont(ofSize: 18)
@@ -65,7 +77,7 @@ class MyFavoriteTableViewCell: UITableViewCell{
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    let underLineView: UIView = {
+    private lazy var underLineView: UIView = {
         let uv = UIView()
         uv.backgroundColor = .systemGray6
         uv.heightAnchor.constraint(equalToConstant: 1).isActive = true
@@ -73,55 +85,10 @@ class MyFavoriteTableViewCell: UITableViewCell{
         return uv
     }()
     //MARK: - Lifecycle
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .white
-        addSubview(stockImageView)
-        stockImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        stockImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        stockImageView.widthAnchor.constraint(equalToConstant: 42).isActive = true
-        stockImageView.heightAnchor.constraint(equalToConstant: 42).isActive = true
-        
-        stockImageView.layer.cornerRadius = 42 / 2
-        
-        addSubview(underLineView)
-        underLineView.leadingAnchor.constraint(equalTo: stockImageView.leadingAnchor).isActive = true
-        underLineView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        underLineView.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15).isActive = true
-         
-        addSubview(leftView)
-        leftView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
-        leftView.heightAnchor.constraint(equalTo: stockImageView.heightAnchor).isActive = true
-        leftView.leadingAnchor.constraint(equalTo: stockImageView.trailingAnchor, constant: 10).isActive = true
-        
-        leftView.addSubview(companyNameLabel)
-        companyNameLabel.centerYAnchor.constraint(equalTo: leftView.centerYAnchor).isActive = true
-        companyNameLabel.leadingAnchor.constraint(equalTo: leftView.leadingAnchor, constant: 0).isActive = true
-        companyNameLabel.widthAnchor.constraint(equalTo: leftView.widthAnchor).isActive = true
-        
-        leftView.addSubview(stockNameLabel)
-        stockNameLabel.topAnchor.constraint(equalTo: companyNameLabel.bottomAnchor).isActive = true
-        stockNameLabel.leadingAnchor.constraint(equalTo: companyNameLabel.leadingAnchor).isActive = true
-        stockNameLabel.widthAnchor.constraint(equalTo: leftView.widthAnchor).isActive = true
-        
-        addSubview(rightView)
-        rightView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        rightView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
-        rightView.heightAnchor.constraint(equalTo: stockImageView.heightAnchor).isActive = true
-        rightView.leadingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: 0).isActive = true
-        
-        rightView.addSubview(percentChangeLabel)
-        percentChangeLabel.centerYAnchor.constraint(equalTo: rightView.centerYAnchor).isActive = true
-
-        percentChangeLabel.trailingAnchor.constraint(equalTo: rightView.trailingAnchor, constant: 0).isActive = true
-        percentChangeLabel.widthAnchor.constraint(equalTo: rightView.widthAnchor).isActive = true
-        
-        rightView.addSubview(currentPriceLabel)
-        currentPriceLabel.widthAnchor.constraint(equalTo: rightView.widthAnchor).isActive = true
-        currentPriceLabel.topAnchor.constraint(equalTo: percentChangeLabel.bottomAnchor).isActive = true
-        currentPriceLabel.trailingAnchor.constraint(equalTo: percentChangeLabel.trailingAnchor).isActive = true
-        
+        initLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -129,28 +96,54 @@ class MyFavoriteTableViewCell: UITableViewCell{
     }
     //MARK: - Actions
     //MARK: - Helpers
-    var cellViewModel: Model? {
-            didSet {
-                guard let viewModel = cellViewModel else{return}
-                    
-            
-//                let url = URL(string: viewModel.image)
-//                stockImageView.kf.setImage(with: url)
-                stockNameLabel.text = viewModel.name
-                companyNameLabel.text = viewModel.name
-//                companyNameLabel.text = viewModel.stockName
-                currentPriceLabel.text = viewModel.setPrice
-                percentChangeLabel.text = viewModel.setReturn
-                percentChangeLabel.textColor = viewModel.setColor
+    func initLayout(){
+        [
+            stockImageView,
+            underLineView,
+            leftView,
+            rightView
+        ]
+            .forEach {
+                addSubview($0)
             }
+        stockImageView.snp.makeConstraints {
+            $0.leading.centerY.equalToSuperview()
         }
+        underLineView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.leading.equalTo(stockImageView.snp.leading)
+            $0.trailing.equalToSuperview().offset(-15)
+        }
+        leftView.snp.makeConstraints {
+            $0.width.equalToSuperview().multipliedBy(0.5)
+            $0.height.equalTo(stockImageView.snp.height)
+            $0.leading.equalTo(stockImageView.snp.trailing).offset(10)
+        }
+        leftView.addSubview(companyNameLabel)
+        companyNameLabel.snp.makeConstraints {
+            $0.centerY.leading.width.equalToSuperview()
+        }
+        leftView.addSubview(stockNameLabel)
+        stockNameLabel.snp.makeConstraints {
+            $0.top.equalTo(companyNameLabel.snp.bottom)
+            $0.leading.equalTo(companyNameLabel.snp.leading)
+            $0.width.equalToSuperview()
+        }
+        rightView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.height.equalTo(stockImageView.snp.height)
+            $0.leading.equalTo(leftView.snp.trailing)
+        }
+        rightView.addSubview(percentChangeLabel)
+        percentChangeLabel.snp.makeConstraints {
+            $0.centerY.trailing.width.equalToSuperview()
+        }
+        rightView.addSubview(currentPriceLabel)
+        currentPriceLabel.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.top.equalTo(percentChangeLabel.snp.bottom)
+            $0.trailing.equalTo(percentChangeLabel.snp.trailing)
+        }
+    }
 }
-
-//                let url = URL(string: "\(self.apiData[indexPath.row].imageURL)")
-//                cell?.stockImageView.kf.setImage(with: url, placeholder: UIImage(named: "apple"))
-//                cell?.stockNameLabel.text = self.apiData[indexPath.row].stockName
-//                cell?.companyNameLabel.text = self.apiData[indexPath.row].stockName
-//                cell?.currentPriceLabel.text = "\(self.apiData[indexPath.row].currentPrice)".insertComma + "원"
-//
-//                let str = String(format: "%.2f", Double(self.apiData[indexPath.row].percentChange))
-//                cell?.percentChangeLabel.text = "+" + str + "%"

@@ -8,15 +8,12 @@
 import UIKit
 
 class CategoryCollectionCell: UICollectionViewCell{
-    
-    
-    let testLabel : UILabel = {
+    let categoryTitle : UILabel = {
       let lb = UILabel()
-        lb.text = "감자고구"
+        lb.text = "카테고리"
         lb.font = UIFont.boldSystemFont(ofSize: 15)
         lb.sizeToFit()
         lb.translatesAutoresizingMaskIntoConstraints = false
-        
         return lb
     }()
     let underLineView: UIView = {
@@ -30,37 +27,29 @@ class CategoryCollectionCell: UICollectionViewCell{
     override var isSelected: Bool{
         didSet{
             if isSelected{
-                testLabel.textColor = .systemMint
+                categoryTitle.textColor = .systemMint
                 underLineView.isHidden = false
-
-                
             }
             else{
-
-                testLabel.textColor = .black
+                categoryTitle.textColor = .black
                 underLineView.isHidden = true
-                
-                
             }
         }
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        addSubview(testLabel)
-        
-        testLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        testLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        self.isSelected = true
-        
+        addSubview(categoryTitle)
+        categoryTitle.snp.makeConstraints {
+            $0.centerY.centerX.equalToSuperview()
+        }
         addSubview(underLineView)
-        underLineView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        underLineView.leadingAnchor.constraint(equalTo: testLabel.leadingAnchor).isActive = true
-        underLineView.trailingAnchor.constraint(equalTo: testLabel.trailingAnchor).isActive = true
-    
+        underLineView.snp.makeConstraints {
+            $0.leading.equalTo(categoryTitle.snp.leading)
+            $0.trailing.equalTo(categoryTitle.snp.trailing)
+            $0.bottom.equalToSuperview()
+        }
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

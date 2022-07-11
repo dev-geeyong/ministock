@@ -11,21 +11,18 @@ class Service {
 
     let repository = Repository()
     
-    func entityToModel(completion: @escaping ([Model])->Void){
-        
+    func entityToModel(completion: @escaping ([Model])->Void) {
         var models = [Model]()
         repository.APIRequest { entities in
-            
             entities.output.forEach {
-                let model = Model(account: $0.account, returnPer: $0.returnPer, price: $0.price, name: $0.name)
+                let model = Model(account: $0.account,
+                                  returnPer: $0.returnPer,
+                                  price: $0.price,
+                                  name: $0.name,
+                                  code: $0.code)
                 models.append(model)
             }
             completion(models)
         }
-    }
-
-    @objc func cameraButtonDidPress (_ sender:UIButton){
-
-        print("->")
     }
 }

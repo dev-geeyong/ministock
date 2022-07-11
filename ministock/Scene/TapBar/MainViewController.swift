@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  ministock
 //
 //  Created by IT on 2022/02/15.
@@ -12,30 +12,17 @@ import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
-    
-    let service = Service()
-    var apiData = [Model](){
-        didSet{
-
-//            self.dividendCollectionView.reloadData()
-//            UIView.transition(with: stocksTableView, duration: 0.3, options: .transitionCrossDissolve, animations: {self.stocksTableView.reloadData()}, completion: nil)
-        }
-    }
-    var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
-    
-    
-    private let scrollView: UIScrollView = {
+    private lazy var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
+    private lazy var scrollView: UIScrollView = {
        let sv = UIScrollView()
         sv.backgroundColor = .systemGray6
         return sv
     }()
-    
-    private let contentView: UIView = {
+    private lazy var contentView: UIView = {
        let uv = UIView()
         uv.backgroundColor = .systemGray6
         return uv
     }()
-    
     private lazy var stackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [carouselBackView,
                                                 favoriteStockBackView,
@@ -45,49 +32,38 @@ class MainViewController: UIViewController {
         sv.axis = .vertical
         return sv
     }()
-    
-    private let carouselBackView = CarouselBackView()
-    private let carouselCollectionView = CarouselBackView().carouselCollectionView
-    private let favoriteStockBackView = FavoriteStockBackView()
-    private let stocksBackView = StocksBackView()
-    private let dividendStocksBackView = DividendStocksBackView()
-    private let exchangeRateBackView = ExchangeRateBackView()
+    private lazy var carouselBackView = CarouselBackView()
+    private lazy var favoriteStockBackView = FavoriteStockBackView()
+    private lazy var stocksBackView = StocksBackView()
+    private lazy var dividendStocksBackView = DividendStocksBackView()
+    private lazy var exchangeRateBackView = ExchangeRateBackView()
     
     //MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         favoriteStockBackView.cellDelegate = self
         stocksBackView.pushDelegate = self
         stocksBackView.showDelegate = self
         dividendStocksBackView.delegate = self
-        
         initLayout()
     }
-    //MARK: - Actions
-    
     //MARK: - Helpers
-    
-    func initLayout(){
-    
+    func initLayout() {
         view.addSubview(scrollView)
-        scrollView.snp.makeConstraints { make in
-            make.centerX.width.top.bottom.equalToSuperview()
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-   
         scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints { make in
-            make.centerX.width.top.bottom.equalTo(scrollView)
+        contentView.snp.makeConstraints {
+            $0.width.top.bottom.equalTo(scrollView)
         }
-    
         contentView.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.top.left.right.bottom.height.equalTo(contentView)
+        stackView.snp.makeConstraints {
+            $0.edges.equalTo(contentView)
         }
     }
 }
-
+//MARK: - Actions
 extension MainViewController: PushNavgationDelegate{
     func pushButtonTapped() {
         let nv = AccountViewController()
