@@ -121,17 +121,14 @@ class StocksBackView: UIView{
         self.backgroundColor = .white
         initViewModel()
         initLayout()
-        //delegate
         stocksTableView.delegate = self
         stocksTableView.dataSource = self
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     //MARK: - Actions
     @objc func pushView(sender: UIButton){
         pushDelegate?.pushButtonTapped()
@@ -203,8 +200,8 @@ class StocksBackView: UIView{
             $0.trailing.equalTo(stocksCategoryFilterView.snp.trailing)
             $0.bottom.equalTo(moreStockView.snp.top)
         }
-        categoryCollectionView.snp.makeConstraints { make in
-            make.centerX.centerY.width.height.equalTo(stocksCategoryView)
+        categoryCollectionView.snp.makeConstraints {
+            $0.centerX.centerY.width.height.equalTo(stocksCategoryView)
         }
     }
     func initViewModel() {
