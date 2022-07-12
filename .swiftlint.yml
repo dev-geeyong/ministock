@@ -1,0 +1,12 @@
+disabled_rules:
+  - line_length
+  - control_statement
+  - todo
+
+identifier_name:
+  allowed_symbols: "_"
+  min_length: 1
+  
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+  - Pods

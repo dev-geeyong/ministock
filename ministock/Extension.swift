@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 extension String {
     /**
      숫자형 문자열에 3자리수 마다 콤마 넣기
@@ -30,30 +28,24 @@ extension String {
                 if numberString.isEmpty {
                     numberString = "0"
                 }
-                
                 guard let doubleValue = Double(numberString) else {
                     return self
                 }
-                
                 return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
-                
             } else if numberArray.count == 2 {
                 var numberString = numberArray[0]
                 if numberString.isEmpty {
                     numberString = "0"
                 }
-                
                 guard let doubleValue = Double(numberString) else {
                     return self
                 }
-                
                 return (numberFormatter.string(from: NSNumber(value: doubleValue)) ?? numberString) + ".\(numberArray[1])"
             }
         } else {
             guard let doubleValue = Double(self) else {
                 return self
             }
-            
             return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
         }
         return self
