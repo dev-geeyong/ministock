@@ -8,9 +8,7 @@
 import UIKit
 
 class Service {
-
     let repository = Repository()
-    
     func entityToModel(completion: @escaping ([Model])->Void) {
         var models = [Model]()
         repository.APIRequest { entities in
