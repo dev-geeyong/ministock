@@ -50,11 +50,9 @@ class ExchangeRateBackView: UIView{
         super.init(frame: frame)
         initLayout()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     //MARK: - Actions
     //MARK: - Helpers
     func initLayout(){

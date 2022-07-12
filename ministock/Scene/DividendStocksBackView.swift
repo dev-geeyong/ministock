@@ -43,7 +43,6 @@ class DividendStocksBackView: UIView {
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         bt.addTarget(self, action: #selector(btnActions), for: .touchUpInside)
         bt.contentHorizontalAlignment = .left;
-        
         return bt
     }()
     private lazy var dividendCollectionView: UICollectionView = {
@@ -64,15 +63,9 @@ class DividendStocksBackView: UIView {
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         initLayout()
-
-        
         dividendCollectionView.dataSource = self
         dividendCollectionView.delegate = self
-
-
-        
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
