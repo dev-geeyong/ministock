@@ -24,6 +24,8 @@
 		46B4716227D6D753000E1AE0 /* DividendStocksBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4716127D6D753000E1AE0 /* DividendStocksBackView.swift */; };
 		46B4716427D6D959000E1AE0 /* ExchangeRateBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4716327D6D959000E1AE0 /* ExchangeRateBackView.swift */; };
 		46B4716727D6DF96000E1AE0 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4716627D6DF96000E1AE0 /* Service.swift */; };
+		46D9C123287D336100A20E45 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46D9C122287D336100A20E45 /* GoogleService-Info.plist */; };
+		46D9C126287D56B900A20E45 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 46D9C125287D56B900A20E45 /* .swiftlint.yml */; };
 		6AAD302327C3198100228673 /* MainTapBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302227C3198100228673 /* MainTapBarController.swift */; };
 		6AAD302527C31ACA00228673 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302427C31ACA00228673 /* SearchViewController.swift */; };
 		6AAD302727C31B1700228673 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD302627C31B1700228673 /* ThemesViewController.swift */; };
@@ -54,6 +56,8 @@
 		46B4716127D6D753000E1AE0 /* DividendStocksBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividendStocksBackView.swift; sourceTree = "<group>"; };
 		46B4716327D6D959000E1AE0 /* ExchangeRateBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateBackView.swift; sourceTree = "<group>"; };
 		46B4716627D6DF96000E1AE0 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		46D9C122287D336100A20E45 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		46D9C125287D56B900A20E45 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		5FA2412691C0FCA581C27425 /* Pods-ministock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ministock.release.xcconfig"; path = "Target Support Files/Pods-ministock/Pods-ministock.release.xcconfig"; sourceTree = "<group>"; };
 		6AAD302227C3198100228673 /* MainTapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarController.swift; sourceTree = "<group>"; };
 		6AAD302427C31ACA00228673 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 		6ACD5F3627BB24E900D74C1F = {
 			isa = PBXGroup;
 			children = (
+				46D9C125287D56B900A20E45 /* .swiftlint.yml */,
 				6ACD5F4127BB24E900D74C1F /* ministock */,
 				6ACD5F4027BB24E900D74C1F /* Products */,
 				F7C1B7F073616590FED6874D /* Pods */,
@@ -152,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				6ACD5F4227BB24E900D74C1F /* AppDelegate.swift */,
+				46D9C122287D336100A20E45 /* GoogleService-Info.plist */,
 				6ACD5F4427BB24E900D74C1F /* SceneDelegate.swift */,
 				463010D22877FD3C00CB98ED /* KeyValues.swift */,
 				6ACD5F4B27BB24EB00D74C1F /* Assets.xcassets */,
@@ -197,6 +203,7 @@
 				6ACD5F3C27BB24E900D74C1F /* Frameworks */,
 				6ACD5F3D27BB24E900D74C1F /* Resources */,
 				9CD031BA2A5CCFDA7E99197B /* [CP] Embed Pods Frameworks */,
+				46D9C124287D55E100A20E45 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -251,13 +258,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46D9C126287D56B900A20E45 /* .swiftlint.yml in Resources */,
 				6ACD5F4C27BB24EB00D74C1F /* Assets.xcassets in Resources */,
+				46D9C123287D336100A20E45 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		46D9C124287D55E100A20E45 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n\n";
+		};
 		585C62C0DCB01F51B217262D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

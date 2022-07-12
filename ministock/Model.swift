@@ -14,15 +14,15 @@ struct Model {
     var name: String
     var code: String
 }
-
-extension Model{
+extension Model {
     var setColor: UIColor {
         returnPer.first == "-" ? .blue : .red
     }
-    var setReturn: String{
+    var setReturn: String {
         "\(returnPer)%"
     }
-    var setPrice: String{
+    var setPrice: String {
         "$\(Double(price)!)"
     }
 }
+

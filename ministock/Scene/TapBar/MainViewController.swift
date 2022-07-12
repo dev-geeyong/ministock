@@ -9,6 +9,8 @@ import UIKit
 import Alamofire
 import Kingfisher
 import SnapKit
+import FirebaseCore
+import FirebaseFirestore
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
@@ -37,7 +39,8 @@ class MainViewController: UIViewController {
     private lazy var stocksBackView = StocksBackView()
     private lazy var dividendStocksBackView = DividendStocksBackView()
     private lazy var exchangeRateBackView = ExchangeRateBackView()
-    
+    var db: Firestore? = Firestore.firestore()
+    var ref: DocumentReference? = nil
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,19 @@ class MainViewController: UIViewController {
         stocksBackView.pushDelegate = self
         stocksBackView.showDelegate = self
         dividendStocksBackView.delegate = self
+        // Add a new document with a generated ID
+        
+        ref = db!.collection("users").addDocument(data: [
+            "first": "Ada",
+            "last": "Lovelace",
+            "born": 1815
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(self.ref!.documentID)")
+            }
+        }
         initLayout()
     }
     //MARK: - Helpers
