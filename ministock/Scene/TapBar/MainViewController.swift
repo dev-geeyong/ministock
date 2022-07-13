@@ -50,17 +50,43 @@ class MainViewController: UIViewController {
         dividendStocksBackView.delegate = self
         // Add a new document with a generated ID
         
-        ref = db!.collection("users").addDocument(data: [
-            "first": "Ada",
-            "last": "Lovelace",
-            "born": 1815
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
+//        ref = db!.collection("users").addDocument(data: [
+//            "test": "test",
+//        ]) { err in
+//            if let err = err {
+//                print("Error adding document: \(err)")
+//            } else {
+//                print("Document added with ID: \(self.ref!.documentID)")
+//                UserDefaults.standard.set(self.ref!.documentID, forKey: "documentID")
+//            }
+//        }
+//        print("->?!",UserDefaults.standard.string(forKey: "documentID"))
+        let docRef = db!.collection("users").document(UserDefaults.standard.string(forKey: "documentID")!)
+
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("->Document data: \(dataDescription)")
             } else {
-                print("Document added with ID: \(self.ref!.documentID)")
+                print("Document does not exist")
             }
         }
+        
+        db!.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if let test = UserDefaults.standard.string(forKey: "documentID"){
+                        if test == document.documentID {
+                            print("->document.data()",document.data())
+                        }
+                    }
+                    print("\(document.documentID) => \(document.data())")
+                }
+            }
+        }
+        //https://firebase.google.com/docs/firestore/query-data/get-data
         initLayout()
     }
     //MARK: - Helpers

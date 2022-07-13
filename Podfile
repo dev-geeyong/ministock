@@ -5,8 +5,8 @@ target 'ministock' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 	pod 'Alamofire', '~> 5.5'
-pod 'Kingfisher', '~> 7.0'
-pod 'SwiftLint'
+  pod 'Kingfisher', '~> 7.0'
+  pod 'SwiftLint'
   # Pods for ministock
   # Add the Firebase pod for Google Analytics
   pod 'FirebaseAnalytics'
@@ -18,5 +18,7 @@ pod 'SwiftLint'
   # For example, to use Firebase Authentication and Cloud Firestore
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
+  pod 'Firebase/Core'
+  pod 'FirebaseFirestoreSwift'
 end
    
