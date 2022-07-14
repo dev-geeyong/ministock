@@ -58,6 +58,7 @@
 		46B4716627D6DF96000E1AE0 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		46D9C122287D336100A20E45 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46D9C125287D56B900A20E45 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		46FF0797287F9C2000AF6B64 /* ministock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ministock.entitlements; sourceTree = "<group>"; };
 		5FA2412691C0FCA581C27425 /* Pods-ministock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ministock.release.xcconfig"; path = "Target Support Files/Pods-ministock/Pods-ministock.release.xcconfig"; sourceTree = "<group>"; };
 		6AAD302227C3198100228673 /* MainTapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarController.swift; sourceTree = "<group>"; };
 		6AAD302427C31ACA00228673 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +157,7 @@
 		6ACD5F4127BB24E900D74C1F /* ministock */ = {
 			isa = PBXGroup;
 			children = (
+				46FF0797287F9C2000AF6B64 /* ministock.entitlements */,
 				6ACD5F4227BB24E900D74C1F /* AppDelegate.swift */,
 				46D9C122287D336100A20E45 /* GoogleService-Info.plist */,
 				6ACD5F4427BB24E900D74C1F /* SceneDelegate.swift */,
@@ -242,7 +244,7 @@
 			);
 			mainGroup = 6ACD5F3627BB24E900D74C1F;
 			packageReferences = (
-				461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit.git" */,
 			);
 			productRefGroup = 6ACD5F4027BB24E900D74C1F /* Products */;
 			projectDirPath = "";
@@ -483,7 +485,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = ministock/ministock.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TR28HNY8VK;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -500,6 +504,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ministock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = mimiTest;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -512,7 +517,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = ministock/ministock.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TR28HNY8VK;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -529,6 +536,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ministock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = mimiTest;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -559,7 +567,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -572,7 +580,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		461B250C27D1D4B200AB27D9 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 461B250B27D1D4B100AB27D9 /* XCRemoteSwiftPackageReference "SnapKit.git" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

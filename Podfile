@@ -19,6 +19,7 @@ target 'ministock' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
   pod 'FirebaseFirestoreSwift'
 end
    
