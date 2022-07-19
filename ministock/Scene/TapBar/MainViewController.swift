@@ -12,10 +12,11 @@ import SnapKit
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseMessaging
+import SwiftUI
 
 class MainViewController: UIViewController {
     //MARK: - Propertie
-    private lazy var category = ["상승","하락","조회급등","인기검색","배당","시가총액"]
+    private lazy var category = ["상승","zzxczxc하락","조회급등","인기검색","배당","시가총액"]
     private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.backgroundColor = .systemGray6
@@ -141,4 +142,27 @@ extension MainViewController: ShowBottomSheetDelegate{
         popUpViewController.modalPresentationStyle = .overFullScreen
         present(popUpViewController, animated: false, completion: nil)
     }
+}
+//PrewViewProvider 연결!
+struct MainViewController_Previews: PreviewProvider {
+    
+    //프리뷰
+    static var previews: some View {
+        container().edgesIgnoringSafeArea(.all)
+    }
+    
+    //프리뷰 보여줄 ViewController 지정
+    struct container: UIViewControllerRepresentable {
+        func makeUIViewController(context: Context) -> UIViewController {
+            let mainViewController = MainViewController()
+            return UINavigationController(rootViewController: mainViewController)
+        }
+        
+        //호출해야하는 함수라 비워두어도 괜찮다능
+        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+        
+        //타입알리아스는 UIViewController로
+        typealias UIViewControllerType = UIViewController
+    }
+    
 }

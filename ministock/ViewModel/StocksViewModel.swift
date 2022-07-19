@@ -9,7 +9,6 @@ import UIKit
 
 class StocksViewModel {
     let service = Service()
-    
     var reloadTableView: () -> Void = {}
     var stocksModel = [Model]() {
         didSet {
@@ -25,8 +24,3 @@ class StocksViewModel {
         return stocksModel[indexPath.row]
     }
 }
-
-
-
-
-

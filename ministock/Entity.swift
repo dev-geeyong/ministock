@@ -20,3 +20,9 @@ struct Stock: Decodable {
         case code = "ovrs_pdno"
     }
 }
+struct Token: Decodable {
+    let token: String
+    enum CodingKeys: String, CodingKey {
+        case token = "access_token"
+    }
+}
